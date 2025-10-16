@@ -25,6 +25,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(authz -> authz.requestMatchers("/css/**").permitAll() // CSSは認証不要
                         .requestMatchers("/").permitAll() // トップページは認証不要
+                        .requestMatchers("/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated() // 他は認証必要
                 );
 

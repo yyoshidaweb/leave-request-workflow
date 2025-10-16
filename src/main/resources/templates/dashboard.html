@@ -15,6 +15,10 @@
         <!-- 一般ユーザーにのみ表示 -->
         <span sec:authorize="hasRole('USER')">一般ユーザー</span>
     </p>
+    <!-- 管理者にのみ表示 -->
+    <a th:href="@{/users}" sec:authorize="hasRole('ADMIN')">
+        ユーザー一覧
+    </a>
     <form th:action="@{/logout}" method="post">
         <input type="submit" name="logout" value="ログアウト" />
     </form>
