@@ -11,7 +11,15 @@
     <!-- 未ログインの場合のみ表示 -->
     <a th:href="@{/login}" sec:authorize="!isAuthenticated()">
         ログイン
+    </a><br>
+    <!-- 未ログインの場合のみ表示 -->
+    <a th:href="@{/register}" sec:authorize="!isAuthenticated()">
+        新規登録
     </a>
+    <!-- ログイン時のみ表示 -->
+    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+        <input type="submit" name="logout" value="ログアウト" />
+    </form>
 </body>
 
 </html>
