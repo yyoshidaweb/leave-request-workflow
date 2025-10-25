@@ -45,7 +45,8 @@ public class UserController {
 
     // 登録フォームの表示
     @GetMapping("/register")
-    public String showRegisterForm(@ModelAttribute("userForm") UserForm userForm) {
+    public String showRegisterForm(Model model) {
+        model.addAttribute("userForm", new UserForm()); // フォーム用の空オブジェクトをセット
         return "register";
     }
 
