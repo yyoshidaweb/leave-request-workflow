@@ -1,10 +1,11 @@
 package com.example.leave_request_workflow.config;
 
+import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.leave_request_workflow.form.UserForm;
 import com.example.leave_request_workflow.entity.User;
 import com.example.leave_request_workflow.repository.UserRepository;
+import com.example.leave_request_workflow.form.UserForm;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.leave_request_workflow.form.PasswordForm;
 import com.example.leave_request_workflow.exception.CurrentPasswordIncorrectException;
@@ -12,7 +13,9 @@ import com.example.leave_request_workflow.exception.ConfirmPasswordMismatchExcep
 import com.example.leave_request_workflow.form.NameForm;
 import com.example.leave_request_workflow.form.EmailForm;
 
-// 登録ロジック
+/** 
+ * ビジネスロジックを担うサービス層
+ */
 @Service
 public class UserService {
 
@@ -22,6 +25,13 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * 全ユーザーを取得
+     */
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     /**
