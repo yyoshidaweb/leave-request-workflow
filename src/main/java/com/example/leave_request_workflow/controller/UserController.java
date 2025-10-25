@@ -16,31 +16,39 @@ public class UserController {
 
     private final UserService userService;
 
-    // コンストラクタ
+    /**
+     * コンストラクタ
+     */
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    // ユーザー一覧を表示
+    /**
+     * ユーザー一覧を表示
+     */
     @GetMapping("/users")
     public String listUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         return "users/index";
     }
 
-    // ログイン画面を表示
+    /**
+     * ログイン画面を表示
+     */
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    // ダッシュボード画面を表示
+    /**
+     * ダッシュボード画面を表示
+     */
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
     }
 
-    /** 
+    /**
      * 登録フォームの表示
      */
     @GetMapping("/register")
@@ -49,7 +57,7 @@ public class UserController {
         return "register";
     }
 
-    /** 
+    /**
      * 登録処理
      */
     @PostMapping("/register")

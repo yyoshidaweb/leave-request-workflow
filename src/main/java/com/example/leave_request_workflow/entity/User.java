@@ -31,7 +31,9 @@ public class User {
     @Column(nullable = false, length = 100)
     private String roles;
 
-    // 新規作成専用のコンストラクタ
+    /**
+     * 新規作成専用のコンストラクタ
+     */
     public User(String email, String password, String name) {
         this.email = email;
         this.password = password;

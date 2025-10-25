@@ -7,7 +7,9 @@ import jakarta.validation.constraints.Size;
 
 
 
-// フォーム入力を受け取るためのDTO
+/**
+ * フォーム入力を受け取るためのDTO
+ */
 @Data
 public class UserForm {
     @Email(message = "メールアドレスの形式が正しくありません")
