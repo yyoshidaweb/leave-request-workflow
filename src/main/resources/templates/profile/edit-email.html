@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>メールアドレス変更</title>
+</head>
+
+<body>
+    <h2>メールアドレス変更</h2>
+
+    <form th:action="@{/profile/edit-email}" th:object="${emailForm}" method="post">
+        <!-- エラーメッセージ -->
+        <div th:if="${#fields.hasErrors('*')}" style="color: red;">
+            入力内容に誤りがあります。修正してください。
+        </div>
+        <div>
+            <label>新しいメールアドレス：</label><br>
+            <input type="email" th:field="*{email}" required>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></div>
+        </div>
+
+        <button type="submit">変更</button>
+    </form>
+
+    <br>
+    <a th:href="@{/profile}">プロフィールに戻る</a>
+</body>
+
+</html>

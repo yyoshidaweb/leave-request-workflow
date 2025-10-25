@@ -10,17 +10,26 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public class LoginUserDetails implements UserDetails {
+    private final Integer id;
     private final String email;
     private final String password;
     private final String name;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public LoginUserDetails(User user) {
+        this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.name = user.getName();
         this.authorities = Arrays.stream(user.getRoles().split(","))
                 .map(role -> new SimpleGrantedAuthority(role)).toList();
+    }
+
+    /**
+     * IDを返す
+     */
+    public Integer getId() {
+        return id;
     }
 
     @Override

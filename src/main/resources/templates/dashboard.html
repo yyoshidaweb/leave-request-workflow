@@ -18,6 +18,9 @@
     <!-- 管理者にのみ表示 -->
     <a th:href="@{/users}" sec:authorize="hasRole('ADMIN')">
         ユーザー一覧
+    </a><br>
+    <a th:href="@{/profile}">
+        プロフィールを編集する
     </a>
     <form th:action="@{/logout}" method="post">
         <input type="submit" name="logout" value="ログアウト" />

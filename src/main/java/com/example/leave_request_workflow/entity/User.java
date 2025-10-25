@@ -19,16 +19,16 @@ public class User {
     private Integer id;
 
     // メールアドレスを一意に制限
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String roles;
 
     // 新規作成専用のコンストラクタ
@@ -38,4 +38,26 @@ public class User {
         this.name = name;
         this.roles = "ROLE_USER"; // 初期値は常に一般ユーザー
     }
+
+    /**
+     * パスワード更新用メソッド
+     */
+    public void updatePassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
+    /**
+     * 名前更新用メソッド
+     */
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * メールアドレス更新用メソッド
+     */
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
 }
