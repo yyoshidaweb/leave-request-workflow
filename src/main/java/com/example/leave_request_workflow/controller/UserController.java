@@ -8,6 +8,9 @@ import com.example.leave_request_workflow.config.UserService;
 import com.example.leave_request_workflow.form.UserForm;
 import com.example.leave_request_workflow.repository.UserRepository;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
@@ -46,14 +49,21 @@ public class UserController {
     // 登録フォームの表示
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
-        model.addAttribute("userForm", new UserForm()); // フォーム用の空オブジェクトをセット
+        model.addAttribute("userForm", new UserForm());
         return "register";
     }
 
     // 登録処理
     @PostMapping("/register")
-    public String register(@ModelAttribute UserForm userForm) {
-        userService.register(userForm);
+    public String register(@Valid @ModelAttribute("userForm") UserForm form, BindingResult br,
+            RedirectAttributes ra, Model model) {
+        // バリデーションエラーがある場合は再度入力フォームを表示
+        if (br.hasErrors()) {
+            return "register";
+        }
+        userService.register(form);
+        // 成功メッセージをリダイレクト先に一度だけ渡す
+        ra.addFlashAttribute("success", "ユーザー登録が完了しました。");
         return "redirect:/login";
     }
 }
