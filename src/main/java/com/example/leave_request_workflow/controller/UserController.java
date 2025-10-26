@@ -24,7 +24,7 @@ public class UserController {
     }
 
     /**
-     * ユーザー一覧を表示
+     * ユーザー一覧を表示（管理者のみ）
      */
     @GetMapping("/users")
     public String listUsers(Model model) {
