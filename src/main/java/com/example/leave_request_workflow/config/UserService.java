@@ -12,6 +12,7 @@ import com.example.leave_request_workflow.exception.CurrentPasswordIncorrectExce
 import com.example.leave_request_workflow.exception.ConfirmPasswordMismatchException;
 import com.example.leave_request_workflow.form.NameForm;
 import com.example.leave_request_workflow.form.EmailForm;
+import com.example.leave_request_workflow.form.RolesForm;
 
 /** 
  * ビジネスロジックを担うサービス層
@@ -98,6 +99,19 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません。"));
         // 新しい名前を設定
         user.updateEmail(form.getEmail());
+        // 保存
+        userRepository.save(user);
+    }
+
+    /**
+     * ロール変更処理
+     */
+    @Transactional
+    public void editRoles(Integer id, RolesForm form) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません。"));
+        // 新しいロールを設定
+        user.updateRoles(form.getRoles());
         // 保存
         userRepository.save(user);
     }

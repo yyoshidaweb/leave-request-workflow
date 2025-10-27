@@ -8,7 +8,6 @@
 
 <body>
     <h1>ユーザー一覧</h1>
-
     <table>
         <tr>
             <th>ID</th>
@@ -20,10 +19,18 @@
             <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
-            <td th:text="${user.roles}"></td>
+            <td th:switch="${user.roles}">
+                <span th:case="'ROLE_ADMIN'">管理者</span>
+                <span th:case="'ROLE_USER'">一般ユーザー</span>
+                <span th:case="*">不明</span>
+            </td>
+            <td>
+                <a th:href="@{/users/{id}(id=${user.id})}">
+                    編集
+                </a>
+            </td>
         </tr>
     </table>
-
     <a th:href="@{/}">
         トップに戻る
     </a>

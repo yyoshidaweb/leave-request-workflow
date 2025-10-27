@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ロール変更</title>
+</head>
+
+<body>
+    <h2>ロール変更</h2>
+    <form th:action="@{/users/edit-roles}" th:object="${rolesForm}" method="post">
+        <input type="hidden" name="id" th:value="*{id}">
+        <div>
+            <label>新しいロール：</label><br>
+            <select id="roles" name="roles" th:value="*{roles}">
+                <option value="" selected disabled>-- ロールを選択 --</option>
+                <option value="ROLE_USER">一般ユーザー</option>
+                <option value="ROLE_ADMIN">管理者</option>
+            </select>
+            <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" style="color: red;"></div>
+            <div th:if="${error}" class="alert alert-success" th:text="${error}" style="color: red;"></div>
+        </div>
+        <button type="submit">変更</button>
+    </form>
+    <!-- ログイン中のユーザー本人の場合のみ表示 -->
+    <p th:if="${rolesForm.id == #authentication.principal.id}">
+        ※自分自身のロールは変更できません。
+    </p>
+    <a th:href="@{/users/{id}(id=${rolesForm.id})}">ユーザー詳細に戻る</a>
+</body>
+
+</html>

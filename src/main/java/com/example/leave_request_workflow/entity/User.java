@@ -62,4 +62,10 @@ public class User {
         this.email = email;
     }
 
+    /**
+     * ロール更新用メソッド（管理者専用）
+     */
+    public void updateRoles(String roles) {
+        this.roles = roles;
+    }
 }

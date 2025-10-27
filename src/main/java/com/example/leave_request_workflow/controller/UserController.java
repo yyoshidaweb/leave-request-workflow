@@ -10,6 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PathVariable;
+import com.example.leave_request_workflow.entity.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.example.leave_request_workflow.config.LoginUserDetails;
+import com.example.leave_request_workflow.form.RolesForm;
 
 @Controller
 public class UserController {
@@ -30,6 +36,54 @@ public class UserController {
     public String listUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         return "users/index";
+    }
+
+    /**
+     * ユーザー詳細を表示（管理者のみ）
+     */
+    @GetMapping("/users/{id}")
+    public String showUser(@PathVariable Integer id, Model model) {
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        return "users/show";
+    }
+
+    /**
+     * ロール変更ページを表示（管理者専用）
+     */
+    @GetMapping("/users/{id}/edit-roles")
+    public String showEditRolesForm(@PathVariable Integer id, Model model) {
+        // フォームを初期化
+        RolesForm form = new RolesForm();
+        // フォームにidをセット
+        form.setId(id);
+        model.addAttribute("rolesForm", form);
+        return "users/edit-roles"; // ロール変更ページを表示
+    }
+
+    /**
+     * ロール変更処理（管理者専用）
+     */
+    @PostMapping("/users/edit-roles")
+    public String updateRoles(@RequestParam Integer id,
+            @Valid @ModelAttribute("rolesForm") RolesForm form, BindingResult br,
+            RedirectAttributes ra, @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+        // バリデーションエラーがある場合は再度入力フォームを表示
+        if (br.hasErrors()) {
+            return "users/edit-roles";
+        }
+        // ログイン中ユーザーのidを取得
+        Integer loginUserId = loginUserDetails.getId();
+        // 自分自身のロールを変更を禁止する
+        if (loginUserId.equals(id)) {
+            ra.addFlashAttribute("error", "自分自身のロールは変更できません。");
+            return "redirect:/users/" + id + "/edit-roles";
+        }
+        // @RequestParamで指定されたidのユーザーを特定し、ロール変更処理を実行
+        userService.editRoles(id, form);
+        // 成功メッセージをリダイレクト先に一度だけ渡す
+        ra.addFlashAttribute("success", "ロールを変更しました。");
+        return "redirect:/users/" + id;
     }
 
     /**
