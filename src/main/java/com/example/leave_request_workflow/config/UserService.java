@@ -108,7 +108,11 @@ public class UserService {
      * ロール変更処理
      */
     @Transactional
-    public void editRoles(Integer id, RolesForm form) {
+    public void editRoles(Integer id, Integer loginUserId, RolesForm form) {
+        // 自分自身のロールを変更しようとした場合は例外をスローする
+        if (loginUserId.equals(id)) {
+            throw new IllegalStateException("自分自身のロールは変更できません。");
+        }
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません。"));
         // 新しいロールを設定

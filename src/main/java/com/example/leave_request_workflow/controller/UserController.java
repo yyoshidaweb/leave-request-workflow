@@ -74,16 +74,16 @@ public class UserController {
         }
         // ログイン中ユーザーのidを取得
         Integer loginUserId = loginUserDetails.getId();
-        // 自分自身のロールを変更を禁止する
-        if (loginUserId.equals(id)) {
-            ra.addFlashAttribute("error", "自分自身のロールは変更できません。");
+        try {
+            // @RequestParamで指定されたidのユーザーを特定し、ロール変更処理を実行
+            userService.editRoles(id, loginUserId, form);
+            // 成功メッセージをリダイレクト先に一度だけ渡す
+            ra.addFlashAttribute("success", "ロールを変更しました。");
+            return "redirect:/users/" + id;
+        } catch (IllegalStateException e) {
+            ra.addFlashAttribute("error", e.getMessage());
             return "redirect:/users/" + id + "/edit-roles";
         }
-        // @RequestParamで指定されたidのユーザーを特定し、ロール変更処理を実行
-        userService.editRoles(id, form);
-        // 成功メッセージをリダイレクト先に一度だけ渡す
-        ra.addFlashAttribute("success", "ロールを変更しました。");
-        return "redirect:/users/" + id;
     }
 
     /**
