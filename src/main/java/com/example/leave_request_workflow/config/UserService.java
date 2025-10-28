@@ -13,8 +13,9 @@ import com.example.leave_request_workflow.exception.ConfirmPasswordMismatchExcep
 import com.example.leave_request_workflow.form.NameForm;
 import com.example.leave_request_workflow.form.EmailForm;
 import com.example.leave_request_workflow.form.RolesForm;
+import org.springframework.dao.EmptyResultDataAccessException;
 
-/** 
+/**
  * ビジネスロジックを担うサービス層
  */
 @Service
@@ -114,5 +115,17 @@ public class UserService {
         user.updateRoles(form.getRoles());
         // 保存
         userRepository.save(user);
+    }
+
+    /**
+     * 削除処理
+     */
+    @Transactional
+    public void deleteById(Integer id) {
+        // ユーザーが存在しない場合は例外をスローする
+        if (!userRepository.existsById(id)) {
+            throw new EmptyResultDataAccessException("ユーザーが存在しません: id=" + id, 1);
+        }
+        userRepository.deleteById(id);
     }
 }

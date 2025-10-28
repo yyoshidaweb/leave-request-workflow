@@ -28,6 +28,10 @@
             <td><a th:href="@{/profile/edit-password}">変更</a></td>
         </tr>
     </table>
+    <form th:action="@{/profile/delete}" method="post">
+        <button type="submit">アカウント削除</button>
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+    </form>
 </body>
 
 </html>

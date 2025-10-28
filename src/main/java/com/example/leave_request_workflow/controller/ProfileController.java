@@ -15,6 +15,12 @@ import com.example.leave_request_workflow.exception.ConfirmPasswordMismatchExcep
 import com.example.leave_request_workflow.form.PasswordForm;
 import com.example.leave_request_workflow.form.NameForm;
 import com.example.leave_request_workflow.form.EmailForm;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class ProfileController {
@@ -125,5 +131,31 @@ public class ProfileController {
         // 成功メッセージをリダイレクト先に一度だけ渡す
         ra.addFlashAttribute("success", "メールアドレスを変更しました。");
         return "redirect:/profile";
+    }
+
+    /**
+     * ユーザー削除処理
+     */
+    @PostMapping("/profile/delete")
+    public String delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+            RedirectAttributes ra, HttpServletRequest request, HttpServletResponse response) {
+        // ログイン中ユーザーのIDを取得
+        Integer id = loginUserDetails.getId();
+        try {
+            // 現在ログイン中のユーザーを削除
+            userService.deleteById(id);
+            // ログアウト処理
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null) {
+                new SecurityContextLogoutHandler().logout(request, response, auth);
+            }
+            // 成功メッセージを渡してログイン画面へ
+            ra.addFlashAttribute("success", "アカウントを削除しました。");
+            return "redirect:/login";
+        } catch (EmptyResultDataAccessException e) {
+            // すでに削除済みまたは存在しない場合
+            ra.addFlashAttribute("error", "ユーザー情報が見つかりません。");
+            return "redirect:/profile";
+        }
     }
 }
