@@ -14,6 +14,8 @@ import com.example.leave_request_workflow.form.NameForm;
 import com.example.leave_request_workflow.form.EmailForm;
 import com.example.leave_request_workflow.form.RolesForm;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * ビジネスロジックを担うサービス層
@@ -108,7 +110,12 @@ public class UserService {
      * ロール変更処理
      */
     @Transactional
-    public void editRoles(Integer id, Integer loginUserId, RolesForm form) {
+    public void editRoles(Integer id, RolesForm form) {
+        // 現在ログイン中のユーザー情報を取得
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        LoginUserDetails loginUserDetails = (LoginUserDetails) auth.getPrincipal();
+        // ログイン中ユーザーのIDを取得
+        Integer loginUserId = loginUserDetails.getId();
         // 自分自身のロールを変更しようとした場合は例外をスローする
         if (loginUserId.equals(id)) {
             throw new IllegalStateException("自分自身のロールは変更できません。");

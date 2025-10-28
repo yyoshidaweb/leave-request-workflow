@@ -12,9 +12,7 @@ import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.example.leave_request_workflow.entity.User;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.leave_request_workflow.config.LoginUserDetails;
 import com.example.leave_request_workflow.form.RolesForm;
 
 @Controller
@@ -67,16 +65,14 @@ public class UserController {
     @PostMapping("/users/edit-roles")
     public String updateRoles(@RequestParam Integer id,
             @Valid @ModelAttribute("rolesForm") RolesForm form, BindingResult br,
-            RedirectAttributes ra, @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+            RedirectAttributes ra) {
         // バリデーションエラーがある場合は再度入力フォームを表示
         if (br.hasErrors()) {
             return "users/edit-roles";
         }
-        // ログイン中ユーザーのidを取得
-        Integer loginUserId = loginUserDetails.getId();
         try {
             // @RequestParamで指定されたidのユーザーを特定し、ロール変更処理を実行
-            userService.editRoles(id, loginUserId, form);
+            userService.editRoles(id, form);
             // 成功メッセージをリダイレクト先に一度だけ渡す
             ra.addFlashAttribute("success", "ロールを変更しました。");
             return "redirect:/users/" + id;
