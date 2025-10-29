@@ -26,9 +26,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz.requestMatchers("/css/**").permitAll() // CSSは認証不要
                         .requestMatchers("/").permitAll() // トップページは認証不要
                         .requestMatchers("/register").permitAll() // 新規ユーザー登録ページは認証不要
+                        .requestMatchers("/h2-console/**").permitAll() // H2コンソールに全員アクセス許可
                         .requestMatchers("/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated() // 他は認証必要
-                );
+                )
+                // フレームを使用できるようにする（H2コンソール表示用）
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                // CSRF保護を無効化（H2コンソールへのPOSTを許可するため）
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
 
         return http.build();
     }
