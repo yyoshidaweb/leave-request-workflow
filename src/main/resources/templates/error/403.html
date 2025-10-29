@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>403エラー</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <h1>403エラー：実行する権限がありません</h1>
+    <ul>
+        <li>status : [[${status}]]</li>
+        <li>error : [[${error}]]</li>
+    </ul>
+    <a th:href="@{/}">トップページに戻る</a>
+</body>
+
+</html>

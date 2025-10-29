@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>名前変更</title>
+</head>
+
+<body>
+    <h2>名前変更</h2>
+
+    <form th:action="@{/profile/edit-name}" th:object="${nameForm}" method="post">
+        <!-- エラーメッセージ -->
+        <div th:if="${#fields.hasErrors('*')}" style="color: red;">
+            入力内容に誤りがあります。修正してください。
+        </div>
+        <div>
+            <label>新しい名前：</label><br>
+            <input type="text" th:field="*{name}" required>
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></div>
+        </div>
+
+        <button type="submit">変更</button>
+    </form>
+
+    <br>
+    <a th:href="@{/profile}">プロフィールに戻る</a>
+</body>
+
+</html>
