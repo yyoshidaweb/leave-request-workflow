@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>休暇申請一覧</title>
+</head>
+
+<body>
+    <h2>休暇申請一覧</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>申請日</th>
+                <th>開始日</th>
+                <th>終了日</th>
+                <th>種別</th>
+                <th>理由</th>
+                <th>ステータス</th>
+                <th>承認日時</th>
+                <th>却下日時</th>
+                <th>管理者コメント</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="request : ${leaveRequests}">
+                <td th:text="${#temporals.format(request.appliedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${request.startDate}"></td>
+                <td th:text="${request.endDate}"></td>
+                <td th:text="${request.leaveType.label}"></td>
+                <td th:text="${request.reason}"></td>
+                <td th:text="${request.status.label}"></td>
+                <td
+                    th:text="${request.approvedAt != null ? #temporals.format(request.approvedAt, 'yyyy-MM-dd HH:mm') : ''}">
+                </td>
+                <td
+                    th:text="${request.rejectedAt != null ? #temporals.format(request.rejectedAt, 'yyyy-MM-dd HH:mm') : ''}">
+                </td>
+                <td th:text="${request.adminComment}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <a th:if="${!leaveRequests.first}" th:href="@{/user/leave-requests(page=${currentPage - 1})}">前へ</a>
+        <span>ページ [[${currentPage + 1}]] / [[${leaveRequests.totalPages}]]</span>
+        <a th:if="${!leaveRequests.last}" th:href="@{/user/leave-requests(page=${currentPage + 1})}">次へ</a>
+    </div>
+
+</body>
+
+</html>
