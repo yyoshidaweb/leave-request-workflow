@@ -21,7 +21,11 @@
     </a><br>
     <a th:href="@{/profile}">
         プロフィールを編集する
-    </a>
+    </a><br>
+    <!-- 一般ユーザーにのみ表示 -->
+    <a th:href="@{/user/leave-requests}" sec:authorize="hasRole('USER')">
+        休暇申請一覧
+    </a><br>
     <form th:action="@{/logout}" method="post">
         <input type="submit" name="logout" value="ログアウト" />
     </form>
