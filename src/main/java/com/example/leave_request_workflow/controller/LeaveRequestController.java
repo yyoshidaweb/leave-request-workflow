@@ -6,9 +6,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import com.example.leave_request_workflow.config.LeaveRequestService;
 import com.example.leave_request_workflow.config.LoginUserDetails;
 import com.example.leave_request_workflow.entity.LeaveRequest;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 @Controller
 public class LeaveRequestController {
@@ -39,4 +41,17 @@ public class LeaveRequestController {
         return "user/leave-request-list";
     }
 
+    /**
+     * 一般ユーザー向け詳細表示
+     */
+    @GetMapping("/user/leave-requests/{id}")
+    public String showLeaveRequestDetail(@PathVariable Integer id,
+            @AuthenticationPrincipal LoginUserDetails loginUserDetails, Model model) {
+        // ログイン中のユーザーIDを取得
+        Integer userId = loginUserDetails.getId();
+        // 休暇申請IDとユーザーIDが一致するデータのみ取得（他人の申請にアクセスした場合は403エラー）
+        LeaveRequest leaveRequest = leaveRequestService.getLeaveRequestByIdAndUser(id, userId);
+        model.addAttribute("leaveRequest", leaveRequest);
+        return "user/leave-request-detail";
+    }
 }
