@@ -44,7 +44,7 @@
             </tr>
         </tbody>
     </table>
-
+<a th:href="@{/user/leave-requests/create}">休暇申請を作成</a>
     <div>
         <a th:if="${!leaveRequests.first}" th:href="@{/user/leave-requests(page=${currentPage - 1})}">前へ</a>
         <span>ページ [[${currentPage + 1}]] / [[${leaveRequests.totalPages}]]</span>

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import com.example.leave_request_workflow.entity.LeaveRequest;
+import com.example.leave_request_workflow.form.LeaveRequestForm;
 import com.example.leave_request_workflow.repository.LeaveRequestRepository;
 
 @Service
@@ -32,5 +33,20 @@ public class LeaveRequestService {
         // データが存在しなければアクセス拒否（403エラー）
         return optionalRequest
                 .orElseThrow(() -> new AccessDeniedException("指定された休暇申請データにアクセスする権限がありません。"));
+    }
+
+    /**
+     * 休暇申請を新規登録
+     */
+    public LeaveRequest createLeaveRequest(Integer userId, LeaveRequestForm form) {
+        // 開始日と終了日のチェック
+        if (form.getStartDate().isAfter(form.getEndDate())) {
+            throw new IllegalArgumentException("開始日は終了日以前である必要があります");
+        }
+        // 新しい休暇申請エンティティを生成
+        LeaveRequest leaveRequest = new LeaveRequest(userId, form.getStartDate(), form.getEndDate(),
+                form.getLeaveType(), form.getReason());
+        // DBに保存し、保存した申請のIDを返す
+        return leaveRequestRepository.save(leaveRequest);
     }
 }

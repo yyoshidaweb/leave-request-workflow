@@ -8,7 +8,7 @@
 
 <body>
     <h1>休暇申請詳細</h1>
-
+    <p th:if="${success}" th:text="${success}" style="color: green;"></p>
     <table>
         <tr>
             <th>申請日時</th>
@@ -48,7 +48,7 @@
         </tr>
     </table>
 
-    <a th:href="@{/user/leave-requests}">一覧に戻る</a>
+    <a th:href="@{/user/leave-requests}">休暇申請一覧に戻る</a>
 </body>
 
 </html>

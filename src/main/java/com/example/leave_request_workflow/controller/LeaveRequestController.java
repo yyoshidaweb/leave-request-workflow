@@ -5,11 +5,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.leave_request_workflow.config.LeaveRequestService;
 import com.example.leave_request_workflow.config.LoginUserDetails;
 import com.example.leave_request_workflow.entity.LeaveRequest;
+import com.example.leave_request_workflow.form.LeaveRequestForm;
+import jakarta.validation.Valid;
 
 @Controller
 public class LeaveRequestController {
@@ -52,5 +58,41 @@ public class LeaveRequestController {
         LeaveRequest leaveRequest = leaveRequestService.getLeaveRequestByIdAndUser(id, userId);
         model.addAttribute("leaveRequest", leaveRequest);
         return "user/leave-request-detail";
+    }
+
+    /**
+     * 休暇申請新規作成フォームの表示
+     */
+    @GetMapping("user/leave-requests/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("leaveRequestForm", new LeaveRequestForm()); // 空のフォームオブジェクトを渡す
+        return "user/leave-request-create"; // Thymeleafのテンプレート名
+    }
+
+    /**
+     * 休暇申請の新規作成処理
+     */
+    @PostMapping("user/leave-requests/create")
+    public String createLeaveRequest(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+            @Valid @ModelAttribute LeaveRequestForm leaveRequestForm, BindingResult bindingResult,
+            RedirectAttributes ra, Model model) {
+        // 入力チェックでエラーがあればフォームに戻す
+        if (bindingResult.hasErrors()) {
+            return "user/leave-request-create";
+        }
+        // ログイン中のユーザーIDを取得
+        Integer userId = loginUserDetails.getId();
+        try {
+            // サービス層で登録し、登録されたLeaveRequestを取得する
+            LeaveRequest leaveRequest =
+                    leaveRequestService.createLeaveRequest(userId, leaveRequestForm);
+            // 成功メッセージをリダイレクト先に一度だけ渡す
+            ra.addFlashAttribute("success", "休暇申請を登録しました。");
+            // 作成された申請の詳細ページにリダイレクト
+            return "redirect:/user/leave-requests/" + leaveRequest.getId();
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "user/leave-request-create";
+        }
     }
 }

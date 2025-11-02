@@ -6,19 +6,21 @@ import com.example.leave_request_workflow.entity.enums.LeaveStatus;
 import com.example.leave_request_workflow.entity.enums.LeaveType;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "leave_request")
 @Getter
+@NoArgsConstructor
 public class LeaveRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     // 外部キー: users.id
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private Integer userId;
 
     @Column(name = "applied_at")
     private LocalDateTime appliedAt;
@@ -34,7 +36,7 @@ public class LeaveRequest {
     @Column(name = "leave_type", nullable = false, length = 50)
     private LeaveType leaveType;
 
-    @Column(name = "reason")
+    @Column(name = "reason", length = 255)
     private String reason;
 
     // ステータス（Enum → DB上は文字列）
@@ -48,6 +50,20 @@ public class LeaveRequest {
     @Column(name = "rejected_at")
     private LocalDateTime rejectedAt;
 
-    @Column(name = "admin_comment")
+    @Column(name = "admin_comment" , length = 255)
     private String adminComment;
+
+    /**
+     * 新規登録用コンストラクタ（初期ステータスはPENDING）
+     */
+    public LeaveRequest(Integer userId, LocalDate startDate, LocalDate endDate, LeaveType leaveType,
+            String reason) {
+        this.userId = userId; // ログインユーザーのIDを設定
+        this.startDate = startDate; // 開始日
+        this.endDate = endDate; // 終了日
+        this.leaveType = leaveType; // 休暇種別
+        this.reason = reason; // 理由
+        this.appliedAt = LocalDateTime.now(); // 申請日時
+        this.status = LeaveStatus.PENDING; // 初期ステータスをPENDINGに設定
+    }
 }
