@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.leave_request_workflow.config.LeaveRequestService;
 import com.example.leave_request_workflow.config.LoginUserDetails;
@@ -94,5 +95,22 @@ public class LeaveRequestController {
             model.addAttribute("error", e.getMessage());
             return "user/leave-request-create";
         }
+    }
+
+    /**
+     * 休暇申請の取り下げ処理
+     */
+    @PostMapping("/user/leave-requests/withdraw")
+    public String withdrawLeaveRequest(@RequestParam Integer id,
+            @AuthenticationPrincipal LoginUserDetails loginUserDetails, RedirectAttributes ra) {
+        // ログイン中のユーザーIDを取得
+        Integer userId = loginUserDetails.getId();
+        try {
+            leaveRequestService.withdrawLeaveRequest(id, userId);
+            ra.addFlashAttribute("success", "申請を取り下げました。");
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/user/leave-requests/" + id;
     }
 }

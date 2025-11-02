@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import com.example.leave_request_workflow.entity.LeaveRequest;
+import com.example.leave_request_workflow.entity.enums.LeaveStatus;
 import com.example.leave_request_workflow.form.LeaveRequestForm;
 import com.example.leave_request_workflow.repository.LeaveRequestRepository;
 
@@ -48,5 +49,20 @@ public class LeaveRequestService {
                 form.getLeaveType(), form.getReason());
         // DBに保存し、保存した申請のIDを返す
         return leaveRequestRepository.save(leaveRequest);
+    }
+
+    /**
+     * 休暇申請取り下げ処理
+     */
+    public void withdrawLeaveRequest(Integer id, Integer userId) {
+        LeaveRequest leaveRequest = leaveRequestRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new IllegalArgumentException("指定された休暇申請データにアクセスする権限がありません。"));
+        // ステータスがPENDINGであることを確認
+        if (leaveRequest.getStatus() != LeaveStatus.PENDING) {
+            throw new IllegalArgumentException("この申請は取り下げできません。");
+        }
+        // ステータスをWITHDRAWNに変更
+        leaveRequest.updateStatus(LeaveStatus.WITHDRAWN);
+        leaveRequestRepository.save(leaveRequest);
     }
 }

@@ -66,4 +66,11 @@ public class LeaveRequest {
         this.appliedAt = LocalDateTime.now(); // 申請日時
         this.status = LeaveStatus.PENDING; // 初期ステータスをPENDINGに設定
     }
+
+    /**
+     * ステータス更新用メソッド
+     */
+    public void updateStatus(LeaveStatus status) {
+        this.status = status;
+    }
 }

@@ -47,7 +47,12 @@
             <td th:text="${leaveRequest.adminComment}"></td>
         </tr>
     </table>
-
+    <form th:action="@{/user/leave-requests/withdraw}" method="post"
+        onsubmit="return confirm('本当に休暇申請を取り下げますか？この操作は取り消せません。');">
+        <input type="hidden" name="id" th:value="${leaveRequest.id}" />
+        <button type="submit">取り下げ</button>
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+    </form>
     <a th:href="@{/user/leave-requests}">休暇申請一覧に戻る</a>
 </body>
 
