@@ -113,4 +113,22 @@ public class LeaveRequestController {
         }
         return "redirect:/user/leave-requests/" + id;
     }
+
+    /**
+     * 休暇申請削除処理
+     */
+    @PostMapping("/user/leave-requests/delete")
+    public String deleteLeaveRequest(@RequestParam Integer id,
+            @AuthenticationPrincipal LoginUserDetails loginUserDetails, RedirectAttributes ra) {
+        Integer userId = loginUserDetails.getId();
+        try {
+            leaveRequestService.deleteLeaveRequest(id, userId);
+            ra.addFlashAttribute("success", "申請を削除しました。");
+            return "redirect:/user/leave-requests";
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+            return "redirect:/user/leave-requests/" + id;
+        }
+    }
+
 }

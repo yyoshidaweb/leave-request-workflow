@@ -65,4 +65,19 @@ public class LeaveRequestService {
         leaveRequest.updateStatus(LeaveStatus.WITHDRAWN);
         leaveRequestRepository.save(leaveRequest);
     }
+
+    /**
+     * 休暇申請削除処理
+     */
+    public void deleteLeaveRequest(Integer id, Integer userId) {
+        LeaveRequest leaveRequest = leaveRequestRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new IllegalArgumentException("指定された休暇申請データにアクセスする権限がありません。"));
+        // ステータスがWITHDRAWNであることを確認
+        if (leaveRequest.getStatus() != LeaveStatus.WITHDRAWN) {
+            throw new IllegalArgumentException("この申請は削除できません。");
+        }
+        // DBから完全削除
+        leaveRequestRepository.delete(leaveRequest);
+    }
+
 }
