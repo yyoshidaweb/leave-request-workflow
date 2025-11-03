@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/register").permitAll() // 新規ユーザー登録ページは認証不要
                         .requestMatchers("/h2-console/**").permitAll() // H2コンソールに全員アクセス許可
                         .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated() // 他は認証必要
                 )
                 // フレームを使用できるようにする（H2コンソール表示用）
