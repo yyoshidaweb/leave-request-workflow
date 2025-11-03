@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.leave_request_workflow.entity.LeaveRequest;
 import com.example.leave_request_workflow.entity.enums.LeaveStatus;
 
-public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long> {
+public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Integer> {
 
     // 指定ユーザーの休暇申請を取得（ページング対応）
     Page<LeaveRequest> findByUserIdOrderByAppliedAtDesc(Integer userId, Pageable pageable);
