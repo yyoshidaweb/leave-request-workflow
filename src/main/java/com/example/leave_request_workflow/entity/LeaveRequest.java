@@ -53,6 +53,11 @@ public class LeaveRequest {
     @Column(name = "admin_comment" , length = 255)
     private String adminComment;
 
+    // 休暇申請とユーザーを紐付け
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
+
     /**
      * 新規登録用コンストラクタ（初期ステータスはPENDING）
      */
