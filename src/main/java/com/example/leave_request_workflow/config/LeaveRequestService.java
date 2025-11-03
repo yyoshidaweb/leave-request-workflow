@@ -80,4 +80,16 @@ public class LeaveRequestService {
         leaveRequestRepository.delete(leaveRequest);
     }
 
+    /**
+     * 全ユーザーの休暇申請一覧を取得（管理者用）
+     */
+    public Page<LeaveRequest> getAllLeaveRequests(LeaveStatus status, Pageable pageable) {
+        // ステータスフィルタあり
+        if (status != null) {
+            return leaveRequestRepository.findByStatus(status, pageable);
+        }
+        // ステータスフィルタなし
+        return leaveRequestRepository.findAll(pageable);
+    }
+
 }
