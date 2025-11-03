@@ -26,6 +26,10 @@
     <a th:href="@{/user/leave-requests}" sec:authorize="hasRole('USER')">
         休暇申請一覧
     </a><br>
+    <!-- 管理者にのみ表示 -->
+    <a th:href="@{/admin/leave-requests}" sec:authorize="hasRole('ADMIN')">
+        全ユーザーの休暇申請一覧
+    </a><br>
     <form th:action="@{/logout}" method="post">
         <input type="submit" name="logout" value="ログアウト" />
     </form>
