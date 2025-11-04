@@ -92,4 +92,11 @@ public class LeaveRequestService {
         return leaveRequestRepository.findAll(pageable);
     }
 
+    /**
+     * 管理者向け休暇申請詳細取得処理
+     */
+    public LeaveRequest getLeaveRequestByIdForAdmin(Integer id) {
+        return leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("指定された休暇申請が見つかりません。"));
+    }
 }
