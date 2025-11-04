@@ -51,6 +51,9 @@
                     th:text="${request.rejectedAt != null ? #temporals.format(request.rejectedAt, 'yyyy-MM-dd HH:mm') : ''}">
                 </td>
                 <td th:text="${request.adminComment}"></td>
+                <td>
+                    <a th:href="@{/admin/leave-requests/{id}(id=${request.id})}">詳細</a>
+                </td>
             </tr>
         </tbody>
     </table>

@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.example.leave_request_workflow.config.LeaveRequestService;
 import com.example.leave_request_workflow.entity.LeaveRequest;
@@ -36,5 +37,15 @@ public class AdminLeaveRequestController {
         model.addAttribute("selectedStatus", status);
         model.addAttribute("statuses", LeaveStatus.values());
         return "admin/leave-request-list";
+    }
+
+    /**
+     * 管理者向け休暇申請詳細表示
+     */
+    @GetMapping("/admin/leave-requests/{id}")
+    public String showLeaveRequestDetail(@PathVariable Integer id, Model model) {
+        LeaveRequest leaveRequest = leaveRequestService.getLeaveRequestByIdForAdmin(id);
+        model.addAttribute("leaveRequest", leaveRequest);
+        return "admin/leave-request-detail";
     }
 }
