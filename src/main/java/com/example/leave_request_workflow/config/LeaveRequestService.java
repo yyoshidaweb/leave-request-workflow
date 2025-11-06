@@ -112,6 +112,8 @@ public class LeaveRequestService {
         }
         // 承認処理
         leaveRequest.updateStatus(LeaveStatus.APPROVED);
+        // 承認日時に現在時刻を登録
+        leaveRequest.updateApprovedAtNow();
         leaveRequestRepository.save(leaveRequest);
     }
 }

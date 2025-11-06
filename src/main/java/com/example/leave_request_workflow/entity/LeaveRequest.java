@@ -50,7 +50,7 @@ public class LeaveRequest {
     @Column(name = "rejected_at")
     private LocalDateTime rejectedAt;
 
-    @Column(name = "admin_comment" , length = 255)
+    @Column(name = "admin_comment", length = 255)
     private String adminComment;
 
     // 休暇申請とユーザーを紐付け
@@ -77,5 +77,10 @@ public class LeaveRequest {
      */
     public void updateStatus(LeaveStatus status) {
         this.status = status;
+    }
+
+    // 承認時の更新メソッド
+    public void updateApprovedAtNow() {
+        this.approvedAt = LocalDateTime.now();
     }
 }
