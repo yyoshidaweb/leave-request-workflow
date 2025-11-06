@@ -99,4 +99,21 @@ public class LeaveRequestService {
         return leaveRequestRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("指定された休暇申請が見つかりません。"));
     }
+
+    /**
+     * 管理者向け休暇申請承認処理
+     */
+    public void approveLeaveRequest(Integer id) {
+        LeaveRequest leaveRequest = leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("指定された申請が見つかりません。"));
+        // ステータスがPENDINGであることを確認
+        if (leaveRequest.getStatus() != LeaveStatus.PENDING) {
+            throw new IllegalArgumentException("この申請は承認できません。");
+        }
+        // 承認処理
+        leaveRequest.updateStatus(LeaveStatus.APPROVED);
+        // 承認日時に現在時刻を登録
+        leaveRequest.updateApprovedAtNow();
+        leaveRequestRepository.save(leaveRequest);
+    }
 }

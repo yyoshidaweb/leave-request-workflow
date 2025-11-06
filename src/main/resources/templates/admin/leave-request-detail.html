@@ -51,6 +51,11 @@
             <td th:text="${leaveRequest.adminComment}"></td>
         </tr>
     </table>
+    <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/admin/leave-requests/approve}" method="post"
+        onsubmit="return confirm('この申請を承認しますか？この操作は取り消せません。');">
+        <input type="hidden" name="id" th:value="${leaveRequest.id}" />
+        <button type="submit">承認</button>
+    </form>
     <p th:if="${error}" th:text="${error}" style="color: red;"></p>
     <a th:href="@{/admin/leave-requests}">休暇申請一覧に戻る</a>
 </body>
