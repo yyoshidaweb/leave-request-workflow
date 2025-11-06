@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.leave_request_workflow.config.LeaveRequestService;
 import com.example.leave_request_workflow.entity.LeaveRequest;
 import com.example.leave_request_workflow.entity.enums.LeaveStatus;
@@ -47,5 +49,20 @@ public class AdminLeaveRequestController {
         LeaveRequest leaveRequest = leaveRequestService.getLeaveRequestByIdForAdmin(id);
         model.addAttribute("leaveRequest", leaveRequest);
         return "admin/leave-request-detail";
+    }
+
+    /**
+     * 管理者向け休暇申請承認処理
+     */
+    @PostMapping("/admin/leave-requests/approve")
+    public String approveLeaveRequest(@RequestParam Integer id, RedirectAttributes ra,
+            Model model) {
+        try {
+            leaveRequestService.approveLeaveRequest(id);
+            ra.addFlashAttribute("success", "申請を承認しました。");
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/admin/leave-requests/" + id;
     }
 }
