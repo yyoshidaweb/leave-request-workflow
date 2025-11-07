@@ -80,7 +80,7 @@ public class LeaveRequest {
     }
 
     /**
-     * 承認時の更新メソッド
+     * 承認時刻の更新メソッド
      */
     public void updateApprovedAtNow() {
         this.approvedAt = LocalDateTime.now();
