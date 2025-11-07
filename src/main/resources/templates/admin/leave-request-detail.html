@@ -56,6 +56,11 @@
             </td>
         </tr>
     </table>
+    <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/admin/leave-requests/reject}" method="post"
+        onsubmit="return confirm('この申請を却下しますか？この操作は取り消せません。');">
+        <input type="hidden" name="id" th:value="${leaveRequest.id}" />
+        <button type="submit">却下</button>
+    </form>
     <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/admin/leave-requests/approve}" method="post"
         onsubmit="return confirm('この申請を承認しますか？この操作は取り消せません。');">
         <input type="hidden" name="id" th:value="${leaveRequest.id}" />

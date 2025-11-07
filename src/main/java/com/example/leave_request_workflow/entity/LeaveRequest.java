@@ -87,6 +87,13 @@ public class LeaveRequest {
     }
 
     /**
+     * 却下時刻更新メソッド
+     */
+    public void updateRejectAtNow() {
+        this.rejectedAt = LocalDateTime.now();
+    }
+
+    /**
      * 管理者コメント更新メソッド
      */
     public void updateAdminComment(String adminComment) {

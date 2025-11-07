@@ -71,6 +71,20 @@ public class AdminLeaveRequestController {
     }
 
     /**
+     * 管理者向け休暇申請却下処理
+     */
+    @PostMapping("/admin/leave-requests/reject")
+    public String rejectLeaveRequest(@RequestParam Integer id, RedirectAttributes ra, Model model) {
+        try {
+            leaveRequestService.rejectLeaveRequest(id);
+            ra.addFlashAttribute("success", "申請を却下しました。");
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/admin/leave-requests/" + id;
+    }
+
+    /**
      * 管理者コメント編集フォームを表示
      */
     @GetMapping("/admin/leave-requests/{id}/edit-admin-comment")
