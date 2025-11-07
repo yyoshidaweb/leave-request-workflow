@@ -80,10 +80,17 @@ public class LeaveRequest {
     }
 
     /**
-     * 承認時の更新メソッド
+     * 承認時刻の更新メソッド
      */
     public void updateApprovedAtNow() {
         this.approvedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 却下時刻更新メソッド
+     */
+    public void updateRejectAtNow() {
+        this.rejectedAt = LocalDateTime.now();
     }
 
     /**

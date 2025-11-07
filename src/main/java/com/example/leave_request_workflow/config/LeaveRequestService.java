@@ -119,6 +119,23 @@ public class LeaveRequestService {
     }
 
     /**
+     * 管理者向け休暇申請却下処理
+     */
+    public void rejectLeaveRequest(Integer id) {
+        LeaveRequest leaveRequest = leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("指定された申請が見つかりません。"));
+        // ステータスがPENDINGであることを確認
+        if (leaveRequest.getStatus() != LeaveStatus.PENDING) {
+            throw new IllegalArgumentException("この申請は承認できません。");
+        }
+        // 却下処理
+        leaveRequest.updateStatus(LeaveStatus.REJECTED);
+        // 却下日時に現在時刻を登録
+        leaveRequest.updateRejectAtNow();
+        leaveRequestRepository.save(leaveRequest);
+    }
+
+    /**
      * 管理者コメント編集処理
      */
     public void updateAdminComment(Integer id, AdminCommentForm form) {
