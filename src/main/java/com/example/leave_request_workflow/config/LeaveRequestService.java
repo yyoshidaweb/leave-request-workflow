@@ -7,6 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import com.example.leave_request_workflow.entity.LeaveRequest;
 import com.example.leave_request_workflow.entity.enums.LeaveStatus;
+import com.example.leave_request_workflow.form.AdminCommentForm;
 import com.example.leave_request_workflow.form.LeaveRequestForm;
 import com.example.leave_request_workflow.repository.LeaveRequestRepository;
 
@@ -114,6 +115,17 @@ public class LeaveRequestService {
         leaveRequest.updateStatus(LeaveStatus.APPROVED);
         // 承認日時に現在時刻を登録
         leaveRequest.updateApprovedAtNow();
+        leaveRequestRepository.save(leaveRequest);
+    }
+
+    /**
+     * 管理者コメント編集処理
+     */
+    public void updateAdminComment(Integer id, AdminCommentForm form) {
+        LeaveRequest leaveRequest = leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("指定された休暇申請が存在しません。"));
+        // コメントを更新
+        leaveRequest.updateAdminComment(form.getAdminComment());
         leaveRequestRepository.save(leaveRequest);
     }
 }

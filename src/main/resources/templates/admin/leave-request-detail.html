@@ -49,6 +49,11 @@
         <tr>
             <th>管理者コメント</th>
             <td th:text="${leaveRequest.adminComment}"></td>
+            <td>
+                <a th:href="@{/admin/leave-requests/{id}/edit-admin-comment(id=${leaveRequest.id})}">
+                    編集
+                </a>
+            </td>
         </tr>
     </table>
     <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/admin/leave-requests/approve}" method="post"

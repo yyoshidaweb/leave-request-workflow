@@ -79,8 +79,17 @@ public class LeaveRequest {
         this.status = status;
     }
 
-    // 承認時の更新メソッド
+    /**
+     * 承認時の更新メソッド
+     */
     public void updateApprovedAtNow() {
         this.approvedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 管理者コメント更新メソッド
+     */
+    public void updateAdminComment(String adminComment) {
+        this.adminComment = adminComment;
     }
 }
