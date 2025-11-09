@@ -1,0 +1,6 @@
+.gradle
+.git
+.gitignore
+Dockerfile
+README.md
+build
