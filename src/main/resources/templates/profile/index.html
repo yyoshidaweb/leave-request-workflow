@@ -15,23 +15,30 @@
         <tr>
             <th>名前</th>
             <td th:text="${user.name}"></td>
-            <td><a th:href="@{/profile/edit-name}">変更</a></td>
+            <td th:unless="${isTestAdmin}"><a th:href="@{/profile/edit-name}">変更</a></td>
+            <!-- テスト管理者は非活性表示（リンクなし） -->
+            <td th:if="${isTestAdmin}" style="color: gray;">変更不可</td>
         </tr>
         <tr>
             <th>メールアドレス</th>
             <td th:text="${user.email}"></td>
-            <td><a th:href="@{/profile/edit-email}">変更</a></td>
+            <td th:unless="${isTestAdmin}"><a th:href="@{/profile/edit-email}">変更</a></td>
+            <!-- テスト管理者は非活性表示（リンクなし） -->
+            <td th:if="${isTestAdmin}" style="color: gray;">変更不可</td>
         </tr>
         <tr>
             <th>パスワード</th>
             <td>非表示</td>
-            <td><a th:href="@{/profile/edit-password}">変更</a></td>
+            <td th:unless="${isTestAdmin}"><a th:href="@{/profile/edit-password}">変更</a></td>
+            <!-- テスト管理者は非活性表示（リンクなし） -->
+            <td th:if="${isTestAdmin}" style="color: gray;">変更不可</td>
         </tr>
     </table>
     <form th:action="@{/profile/delete}" method="post" onsubmit="return confirm('本当にアカウントを削除しますか？この操作は取り消せません。');">
-        <button type="submit">アカウント削除</button>
+        <button type="submit" th:disabled="${isTestAdmin}">アカウント削除</button>
         <p th:if="${error}" th:text="${error}" style="color: red;"></p>
     </form>
+    <p th:if="${isTestAdmin}" style="color: gray;">※テスト用管理者のプロフィールは編集できません。</p>
 </body>
 
 </html>
