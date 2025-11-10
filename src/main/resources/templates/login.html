@@ -19,7 +19,19 @@
         <input type="password" name="password" placeholder="パスワード" required />
         <button name="Submit" value="Login" type="Submit">ログイン</button>
     </form>
-
+    <p>
+        ※管理者の操作を体験したい場合は、以下のテスト管理者のメールアドレスとパスワードでログインしてください。
+    </p>
+    <table>
+        <tr>
+            <th>メールアドレス</th>
+            <td>test-admin@example.com</td>
+        </tr>
+        <tr>
+            <th>パスワード</th>
+            <td>password</td>
+        </tr>
+    </table>
     <a th:href="@{/register}" sec:authorize="!isAuthenticated()">
         新規登録はこちら
     </a>
