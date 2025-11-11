@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,33 +8,35 @@
 </head>
 
 <body>
-    <h1>ユーザー一覧</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>名前</th>
-            <th>メールアドレス</th>
-            <th>権限</th>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:switch="${user.roles}">
-                <span th:case="'ROLE_ADMIN'">管理者</span>
-                <span th:case="'ROLE_USER'">一般ユーザー</span>
-                <span th:case="*">不明</span>
-            </td>
-            <td>
-                <a th:href="@{/users/{id}(id=${user.id})}">
-                    編集
-                </a>
-            </td>
-        </tr>
-    </table>
-    <a th:href="@{/}">
-        トップに戻る
-    </a>
+    <div layout:fragment="content">
+        <h1>ユーザー一覧</h1>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>メールアドレス</th>
+                <th>権限</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:switch="${user.roles}">
+                    <span th:case="'ROLE_ADMIN'">管理者</span>
+                    <span th:case="'ROLE_USER'">一般ユーザー</span>
+                    <span th:case="*">不明</span>
+                </td>
+                <td>
+                    <a th:href="@{/users/{id}(id=${user.id})}">
+                        編集
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <a th:href="@{/}">
+            トップに戻る
+        </a>
+    </div>
 </body>
 
 </html>

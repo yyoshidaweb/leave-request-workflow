@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,32 +8,34 @@
 </head>
 
 <body>
-    <h1>ダッシュボード</h1>
-    <p>こんにちは、<span sec:authentication="principal.name"></span>さん。</p>
-    <p>あなたの権限 =
+    <div layout:fragment="content">
+        <h1>ダッシュボード</h1>
+        <p>こんにちは、<span sec:authentication="principal.name"></span>さん。</p>
+        <p>あなたの権限 =
+            <!-- 管理者にのみ表示 -->
+            <span sec:authorize="hasRole('ADMIN')">管理者</span>
+            <!-- 一般ユーザーにのみ表示 -->
+            <span sec:authorize="hasRole('USER')">一般ユーザー</span>
+        </p>
         <!-- 管理者にのみ表示 -->
-        <span sec:authorize="hasRole('ADMIN')">管理者</span>
+        <a th:href="@{/users}" sec:authorize="hasRole('ADMIN')">
+            ユーザー一覧
+        </a><br>
+        <a th:href="@{/profile}">
+            プロフィールを編集する
+        </a><br>
         <!-- 一般ユーザーにのみ表示 -->
-        <span sec:authorize="hasRole('USER')">一般ユーザー</span>
-    </p>
-    <!-- 管理者にのみ表示 -->
-    <a th:href="@{/users}" sec:authorize="hasRole('ADMIN')">
-        ユーザー一覧
-    </a><br>
-    <a th:href="@{/profile}">
-        プロフィールを編集する
-    </a><br>
-    <!-- 一般ユーザーにのみ表示 -->
-    <a th:href="@{/user/leave-requests}" sec:authorize="hasRole('USER')">
-        休暇申請一覧
-    </a><br>
-    <!-- 管理者にのみ表示 -->
-    <a th:href="@{/admin/leave-requests}" sec:authorize="hasRole('ADMIN')">
-        全ユーザーの休暇申請一覧
-    </a><br>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" name="logout" value="ログアウト" />
-    </form>
+        <a th:href="@{/user/leave-requests}" sec:authorize="hasRole('USER')">
+            休暇申請一覧
+        </a><br>
+        <!-- 管理者にのみ表示 -->
+        <a th:href="@{/admin/leave-requests}" sec:authorize="hasRole('ADMIN')">
+            全ユーザーの休暇申請一覧
+        </a><br>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" name="logout" value="ログアウト" />
+        </form>
+    </div>
 </body>
 
 </html>

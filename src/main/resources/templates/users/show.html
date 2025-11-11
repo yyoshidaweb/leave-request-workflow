@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,54 +8,56 @@
 </head>
 
 <body>
-    <h1>ユーザー詳細</h1>
+    <div layout:fragment="content">
+        <h1>ユーザー詳細</h1>
 
-    <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
 
-    <table>
-        <tr>
-            <th>名前</th>
-            <td th:text="${user.name}"></td>
-            <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
-            <td th:if="${user.id != #authentication.principal.id}">
-                変更不可
-            </td>
-        </tr>
-        <tr>
-            <th>メールアドレス</th>
-            <td th:text="${user.email}"></td>
-            <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
-            <td th:if="${user.id != #authentication.principal.id}">
-                変更不可
-            </td>
-        </tr>
-        <tr>
-            <th>ロール</th>
-            <td th:switch="${user.roles}">
-                <span th:case="'ROLE_ADMIN'">管理者</span>
-                <span th:case="'ROLE_USER'">一般ユーザー</span>
-                <span th:case="*">不明</span>
-            </td>
-            <td>
+        <table>
+            <tr>
+                <th>名前</th>
+                <td th:text="${user.name}"></td>
                 <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
-                <a th:if="${user.id != #authentication.principal.id}"
-                    th:href="@{/users/{id}/edit-roles(id=${user.id})}">
-                    変更
-                </a>
-                <!-- ログイン中のユーザー本人の場合のみ表示 -->
-                <p th:if="${user.id == #authentication.principal.id}">
-                    ※自分自身のロールは変更できません。
-                </p>
-            </td>
-        </tr>
-    </table>
-    <!-- ログイン中のユーザー本人の場合のみ表示 -->
-    <a th:href="@{/profile}" th:if="${user.id == #authentication.principal.id}">
-        プロフィール編集はこちら
-    </a><br>
-    <a th:href="@{/users}">
-        ユーザー一覧に戻る
-    </a>
+                <td th:if="${user.id != #authentication.principal.id}">
+                    変更不可
+                </td>
+            </tr>
+            <tr>
+                <th>メールアドレス</th>
+                <td th:text="${user.email}"></td>
+                <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
+                <td th:if="${user.id != #authentication.principal.id}">
+                    変更不可
+                </td>
+            </tr>
+            <tr>
+                <th>ロール</th>
+                <td th:switch="${user.roles}">
+                    <span th:case="'ROLE_ADMIN'">管理者</span>
+                    <span th:case="'ROLE_USER'">一般ユーザー</span>
+                    <span th:case="*">不明</span>
+                </td>
+                <td>
+                    <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
+                    <a th:if="${user.id != #authentication.principal.id}"
+                        th:href="@{/users/{id}/edit-roles(id=${user.id})}">
+                        変更
+                    </a>
+                    <!-- ログイン中のユーザー本人の場合のみ表示 -->
+                    <p th:if="${user.id == #authentication.principal.id}">
+                        ※自分自身のロールは変更できません。
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <!-- ログイン中のユーザー本人の場合のみ表示 -->
+        <a th:href="@{/profile}" th:if="${user.id == #authentication.principal.id}">
+            プロフィール編集はこちら
+        </a><br>
+        <a th:href="@{/users}">
+            ユーザー一覧に戻る
+        </a>
+    </div>
 </body>
 
 </html>
