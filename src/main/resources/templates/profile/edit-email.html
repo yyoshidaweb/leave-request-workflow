@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,24 +8,26 @@
 </head>
 
 <body>
-    <h2>メールアドレス変更</h2>
+    <div layout:fragment="content">
+        <h2>メールアドレス変更</h2>
 
-    <form th:action="@{/profile/edit-email}" th:object="${emailForm}" method="post">
-        <!-- エラーメッセージ -->
-        <div th:if="${#fields.hasErrors('*')}" style="color: red;">
-            入力内容に誤りがあります。修正してください。
-        </div>
-        <div>
-            <label>新しいメールアドレス：</label><br>
-            <input type="email" th:field="*{email}" required>
-            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></div>
-        </div>
+        <form th:action="@{/profile/edit-email}" th:object="${emailForm}" method="post">
+            <!-- エラーメッセージ -->
+            <div th:if="${#fields.hasErrors('*')}" style="color: red;">
+                入力内容に誤りがあります。修正してください。
+            </div>
+            <div>
+                <label>新しいメールアドレス：</label><br>
+                <input type="email" th:field="*{email}" required>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></div>
+            </div>
 
-        <button type="submit">変更</button>
-    </form>
+            <button type="submit">変更</button>
+        </form>
 
-    <br>
-    <a th:href="@{/profile}">プロフィールに戻る</a>
+        <br>
+        <a th:href="@{/profile}">プロフィールに戻る</a>
+    </div>
 </body>
 
 </html>

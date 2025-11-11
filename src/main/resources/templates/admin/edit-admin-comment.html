@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,14 +8,16 @@
 </head>
 
 <body>
-    <h1>管理者コメント編集</h1>
-    <form th:action="@{/admin/leave-requests/admin-comment}" th:object="${form}" method="post">
-        <input type="hidden" name="id" th:value="${form.id}" required />
-        <textarea name="adminComment" rows="3" cols="40" th:text="${form.adminComment}"></textarea>
-        <button type="submit">コメントを更新</button>
-    </form>
-    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-    <a th:href="@{/admin/leave-requests/{id}(id=${form.id})}">休暇申請詳細に戻る</a>
+    <div layout:fragment="content">
+        <h1>管理者コメント編集</h1>
+        <form th:action="@{/admin/leave-requests/admin-comment}" th:object="${form}" method="post">
+            <input type="hidden" name="id" th:value="${form.id}" required />
+            <textarea name="adminComment" rows="3" cols="40" th:text="${form.adminComment}"></textarea>
+            <button type="submit">コメントを更新</button>
+        </form>
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+        <a th:href="@{/admin/leave-requests/{id}(id=${form.id})}">休暇申請詳細に戻る</a>
+    </div>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,58 +8,60 @@
 </head>
 
 <body>
-    <h1>休暇申請詳細</h1>
-    <p th:if="${success}" th:text="${success}" style="color: green;"></p>
-    <table>
-        <tr>
-            <th>申請日時</th>
-            <td th:text="${#temporals.format(leaveRequest.appliedAt, 'yyyy-MM-dd HH:mm')}"></td>
-        </tr>
-        <tr>
-            <th>開始日</th>
-            <td th:text="${leaveRequest.startDate}"></td>
-        </tr>
-        <tr>
-            <th>終了日</th>
-            <td th:text="${leaveRequest.endDate}"></td>
-        </tr>
-        <tr>
-            <th>休暇種別</th>
-            <td th:text="${leaveRequest.leaveType.label}"></td>
-        </tr>
-        <tr>
-            <th>理由</th>
-            <td th:text="${leaveRequest.reason}"></td>
-        </tr>
-        <tr>
-            <th>ステータス</th>
-            <td th:text="${leaveRequest.status.label}"></td>
-        </tr>
-        <tr>
-            <th>承認日時</th>
-            <td th:text="${#temporals.format(leaveRequest.approvedAt, 'yyyy-MM-dd HH:mm')}"></td>
-        </tr>
-        <tr>
-            <th>却下日時</th>
-            <td th:text="${#temporals.format(leaveRequest.rejectedAt, 'yyyy-MM-dd HH:mm')}"></td>
-        </tr>
-        <tr>
-            <th>管理者コメント</th>
-            <td th:text="${leaveRequest.adminComment}"></td>
-        </tr>
-    </table>
-    <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/user/leave-requests/withdraw}" method="post"
-        onsubmit="return confirm('本当に休暇申請を取り下げますか？この操作は取り消せません。');">
-        <input type="hidden" name="id" th:value="${leaveRequest.id}" />
-        <button type="submit">取り下げ</button>
-    </form>
-    <form th:if="${leaveRequest.status.name() == 'WITHDRAWN'}" th:action="@{/user/leave-requests/delete}" method="post"
-        onsubmit="return confirm('本当に休暇申請を削除しますか？この操作は取り消せません。');">
-        <input type="hidden" name="id" th:value="${leaveRequest.id}" />
-        <button type="submit">削除</button>
-    </form>
-    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-    <a th:href="@{/user/leave-requests}">休暇申請一覧に戻る</a>
+    <div layout:fragment="content">
+        <h1>休暇申請詳細</h1>
+        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+        <table>
+            <tr>
+                <th>申請日時</th>
+                <td th:text="${#temporals.format(leaveRequest.appliedAt, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            <tr>
+                <th>開始日</th>
+                <td th:text="${leaveRequest.startDate}"></td>
+            </tr>
+            <tr>
+                <th>終了日</th>
+                <td th:text="${leaveRequest.endDate}"></td>
+            </tr>
+            <tr>
+                <th>休暇種別</th>
+                <td th:text="${leaveRequest.leaveType.label}"></td>
+            </tr>
+            <tr>
+                <th>理由</th>
+                <td th:text="${leaveRequest.reason}"></td>
+            </tr>
+            <tr>
+                <th>ステータス</th>
+                <td th:text="${leaveRequest.status.label}"></td>
+            </tr>
+            <tr>
+                <th>承認日時</th>
+                <td th:text="${#temporals.format(leaveRequest.approvedAt, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            <tr>
+                <th>却下日時</th>
+                <td th:text="${#temporals.format(leaveRequest.rejectedAt, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            <tr>
+                <th>管理者コメント</th>
+                <td th:text="${leaveRequest.adminComment}"></td>
+            </tr>
+        </table>
+        <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/user/leave-requests/withdraw}"
+            method="post" onsubmit="return confirm('本当に休暇申請を取り下げますか？この操作は取り消せません。');">
+            <input type="hidden" name="id" th:value="${leaveRequest.id}" />
+            <button type="submit">取り下げ</button>
+        </form>
+        <form th:if="${leaveRequest.status.name() == 'WITHDRAWN'}" th:action="@{/user/leave-requests/delete}"
+            method="post" onsubmit="return confirm('本当に休暇申請を削除しますか？この操作は取り消せません。');">
+            <input type="hidden" name="id" th:value="${leaveRequest.id}" />
+            <button type="submit">削除</button>
+        </form>
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+        <a th:href="@{/user/leave-requests}">休暇申請一覧に戻る</a>
+    </div>
 </body>
 
 </html>

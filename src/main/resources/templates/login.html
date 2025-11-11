@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,34 +8,36 @@
 </head>
 
 <body>
-    <form th:action="@{/login}" method="post">
-        <div th:if="${success}" class="alert alert-success" th:text="${success}" style="color: green;"></div>
-        <h3>ログインしてください。</h3>
-        <div th:if="${param.error}">
-            <div th:if="${session.containsKey('SPRING_SECURITY_LAST_EXCEPTION')}">
-                <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}" style="color: red;"></span>
+    <div layout:fragment="content">
+        <form th:action="@{/login}" method="post">
+            <div th:if="${success}" class="alert alert-success" th:text="${success}" style="color: green;"></div>
+            <h3>ログインしてください。</h3>
+            <div th:if="${param.error}">
+                <div th:if="${session.containsKey('SPRING_SECURITY_LAST_EXCEPTION')}">
+                    <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}" style="color: red;"></span>
+                </div>
             </div>
-        </div>
-        <input type="text" name="username" placeholder="ユーザー名" required />
-        <input type="password" name="password" placeholder="パスワード" required />
-        <button name="Submit" value="Login" type="Submit">ログイン</button>
-    </form>
-    <p>
-        ※管理者の操作を体験したい場合は、以下のテスト管理者のメールアドレスとパスワードでログインしてください。
-    </p>
-    <table>
-        <tr>
-            <th>メールアドレス</th>
-            <td>test-admin@example.com</td>
-        </tr>
-        <tr>
-            <th>パスワード</th>
-            <td>password</td>
-        </tr>
-    </table>
-    <a th:href="@{/register}" sec:authorize="!isAuthenticated()">
-        新規登録はこちら
-    </a>
+            <input type="text" name="username" placeholder="ユーザー名" required />
+            <input type="password" name="password" placeholder="パスワード" required />
+            <button name="Submit" value="Login" type="Submit">ログイン</button>
+        </form>
+        <p>
+            ※管理者の操作を体験したい場合は、以下のテスト管理者のメールアドレスとパスワードでログインしてください。
+        </p>
+        <table>
+            <tr>
+                <th>メールアドレス</th>
+                <td>test-admin@example.com</td>
+            </tr>
+            <tr>
+                <th>パスワード</th>
+                <td>password</td>
+            </tr>
+        </table>
+        <a th:href="@{/register}" sec:authorize="!isAuthenticated()">
+            新規登録はこちら
+        </a>
+    </div>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,67 +8,68 @@
 </head>
 
 <body>
-    <h2>休暇申請一覧</h2>
-    <p th:if="${success}" th:text="${success}" style="color: green;"></p>
-    <!-- ステータスフィルタ -->
-    <form th:action="@{/admin/leave-requests}" method="get">
-        <label>ステータス:</label>
-        <select name="status">
-            <option th:value="${null}" th:text="'すべて'" th:selected="${selectedStatus == null}"></option>
-            <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st.label}"
-                th:selected="${st == selectedStatus}">
-            </option>
-        </select>
-        <button type="submit">絞り込み</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>ユーザー名</th>
-                <th>申請日</th>
-                <th>開始日</th>
-                <th>終了日</th>
-                <th>種別</th>
-                <th>理由</th>
-                <th>ステータス</th>
-                <th>承認日時</th>
-                <th>却下日時</th>
-                <th>管理者コメント</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="request : ${leaveRequests}">
-                <td th:text="${request.user.name}"></td>
-                <td th:text="${#temporals.format(request.appliedAt, 'yyyy-MM-dd HH:mm')}"></td>
-                <td th:text="${request.startDate}"></td>
-                <td th:text="${request.endDate}"></td>
-                <td th:text="${request.leaveType.label}"></td>
-                <td th:text="${request.reason}"></td>
-                <td th:text="${request.status.label}"></td>
-                <td
-                    th:text="${request.approvedAt != null ? #temporals.format(request.approvedAt, 'yyyy-MM-dd HH:mm') : ''}">
-                </td>
-                <td
-                    th:text="${request.rejectedAt != null ? #temporals.format(request.rejectedAt, 'yyyy-MM-dd HH:mm') : ''}">
-                </td>
-                <td th:text="${request.adminComment}"></td>
-                <td>
-                    <a th:href="@{/admin/leave-requests/{id}(id=${request.id})}">詳細</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div>
-        <span th:if="${leaveRequests.hasPrevious()}">
-            <a th:href="@{/admin/leave-requests(page=${currentPage - 1}, status=${selectedStatus})}">前へ</a>
-        </span>
-        <span>ページ <span th:text="${currentPage + 1}"></span> / <span
-                th:text="${leaveRequests.totalPages}"></span></span>
-        <span th:if="${leaveRequests.hasNext()}">
-            <a th:href="@{/admin/leave-requests(page=${currentPage + 1}, status=${selectedStatus})}">次へ</a>
-        </span>
+    <div layout:fragment="content">
+        <h2>休暇申請一覧</h2>
+        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+        <!-- ステータスフィルタ -->
+        <form th:action="@{/admin/leave-requests}" method="get">
+            <label>ステータス:</label>
+            <select name="status">
+                <option th:value="${null}" th:text="'すべて'" th:selected="${selectedStatus == null}"></option>
+                <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st.label}"
+                    th:selected="${st == selectedStatus}">
+                </option>
+            </select>
+            <button type="submit">絞り込み</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>ユーザー名</th>
+                    <th>申請日</th>
+                    <th>開始日</th>
+                    <th>終了日</th>
+                    <th>種別</th>
+                    <th>理由</th>
+                    <th>ステータス</th>
+                    <th>承認日時</th>
+                    <th>却下日時</th>
+                    <th>管理者コメント</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="request : ${leaveRequests}">
+                    <td th:text="${request.user.name}"></td>
+                    <td th:text="${#temporals.format(request.appliedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${request.startDate}"></td>
+                    <td th:text="${request.endDate}"></td>
+                    <td th:text="${request.leaveType.label}"></td>
+                    <td th:text="${request.reason}"></td>
+                    <td th:text="${request.status.label}"></td>
+                    <td
+                        th:text="${request.approvedAt != null ? #temporals.format(request.approvedAt, 'yyyy-MM-dd HH:mm') : ''}">
+                    </td>
+                    <td
+                        th:text="${request.rejectedAt != null ? #temporals.format(request.rejectedAt, 'yyyy-MM-dd HH:mm') : ''}">
+                    </td>
+                    <td th:text="${request.adminComment}"></td>
+                    <td>
+                        <a th:href="@{/admin/leave-requests/{id}(id=${request.id})}">詳細</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <span th:if="${leaveRequests.hasPrevious()}">
+                <a th:href="@{/admin/leave-requests(page=${currentPage - 1}, status=${selectedStatus})}">前へ</a>
+            </span>
+            <span>ページ <span th:text="${currentPage + 1}"></span> / <span
+                    th:text="${leaveRequests.totalPages}"></span></span>
+            <span th:if="${leaveRequests.hasNext()}">
+                <a th:href="@{/admin/leave-requests(page=${currentPage + 1}, status=${selectedStatus})}">次へ</a>
+            </span>
+        </div>
     </div>
-
 </body>
 
 </html>
