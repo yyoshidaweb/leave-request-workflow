@@ -37,10 +37,11 @@
             </tr>
         </table>
         <form th:action="@{/profile/delete}" method="post" onsubmit="return confirm('本当にアカウントを削除しますか？この操作は取り消せません。');">
-            <button type="submit" th:disabled="${isTestAdmin}">アカウント削除</button>
+            <button type="submit" th:disabled="${isTestAdmin}" class="btn btn-danger">アカウント削除</button>
             <p th:if="${error}" th:text="${error}" style="color: red;"></p>
         </form>
         <p th:if="${isTestAdmin}" style="color: gray;">※テスト用管理者のプロフィールは編集できません。</p>
+        <a th:href="@{/dashboard}">ダッシュボードに戻る</a>
     </div>
 </body>
 
