@@ -52,6 +52,7 @@
             <span>ページ [[${currentPage + 1}]] / [[${leaveRequests.totalPages}]]</span>
             <a th:if="${!leaveRequests.last}" th:href="@{/user/leave-requests(page=${currentPage + 1})}">次へ</a>
         </div>
+        <a th:href="@{/dashboard}">ダッシュボードに戻る</a>
     </div>
 </body>
 
