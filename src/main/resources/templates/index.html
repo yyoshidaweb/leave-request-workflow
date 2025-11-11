@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>トップページ</title>
+    <title>Leave Request Workflow</title>
 </head>
 
 <body>
@@ -18,10 +18,7 @@
         <a th:href="@{/register}" sec:authorize="!isAuthenticated()">
             新規登録
         </a>
-        <!-- ログイン時のみ表示 -->
-        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-            <input type="submit" name="logout" value="ログアウト" />
-        </form>
+        <a th:href="@{/dashboard}" sec:authorize="isAuthenticated()">ダッシュボード</a>
     </div>
 </body>
 

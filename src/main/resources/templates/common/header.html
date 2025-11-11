@@ -10,11 +10,15 @@
     <div th:fragment="header">
         <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
             <!-- トップページリンク -->
-            <a class="navbar-brand" th:href="@{/}">トップページ</a>
-            <!-- ログイン・新規登録 -->
+            <a class="navbar-brand" th:href="@{/}">Leave Request Workflow</a>
+            <!-- ログイン・新規登録・ログアウト -->
             <div>
                 <a class="btn btn-outline-primary me-2" th:href="@{/login}" sec:authorize="!isAuthenticated()">ログイン</a>
                 <a class="btn btn-primary" th:href="@{/register}" sec:authorize="!isAuthenticated()">新規登録</a>
+                <form th:action="@{/logout}" method="post" onsubmit="return confirm('本当にログアウトしますか？');"
+                    sec:authorize="isAuthenticated()">
+                    <button type="submit" class="btn btn-outline-danger">ログアウト</button>
+                </form>
             </div>
         </div>
     </div>

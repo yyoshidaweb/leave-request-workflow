@@ -23,6 +23,7 @@
             <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></div>
             <button type="submit">登録</button>
         </form>
+        <a th:href="@{/login}">ログイン</a>
     </div>
 </body>
 
