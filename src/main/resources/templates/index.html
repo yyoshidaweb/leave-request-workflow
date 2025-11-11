@@ -14,8 +14,8 @@
             <!-- 未ログイン時のボタン -->
             <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2 mb-4"
                 sec:authorize="!isAuthenticated()">
-                <a class="btn btn-primary px-4" th:href="@{/login}">ログイン</a>
-                <a class="btn btn-outline-primary px-4" th:href="@{/register}">新規登録</a>
+                <a class="btn btn-outline-success px-4" th:href="@{/login}">ログイン</a>
+                <a class="btn btn-success px-4" th:href="@{/register}">新規登録</a>
             </div>
 
             <!-- ログイン中のボタン -->
