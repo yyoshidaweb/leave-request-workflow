@@ -23,18 +23,18 @@
             <div class="d-flex flex-column align-items-center gap-3 mb-4">
                 <!-- 管理者向けリンク -->
                 <div class="d-flex flex-column align-items-center gap-2" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/admin/leave-requests}" class="btn btn-outline-success">休暇申請一覧</a>
+                    <a th:href="@{/admin/leave-requests}" class="btn btn-success">休暇申請一覧</a>
                     <p class="text-muted small">休暇申請の承認処理はこちら</p>
                 </div>
 
                 <div class="d-flex flex-column align-items-center gap-2" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/users}" class="btn btn-outline-success">ユーザー一覧</a>
+                    <a th:href="@{/users}" class="btn btn-success">ユーザー一覧</a>
                     <p class="text-muted small">ユーザーの権限変更はこちら</p>
                 </div>
 
                 <!-- 一般ユーザー向けリンク -->
                 <div class="d-flex flex-column align-items-center gap-2" sec:authorize="hasRole('USER')">
-                    <a th:href="@{/user/leave-requests}" class="btn btn-outline-success">休暇申請一覧</a>
+                    <a th:href="@{/user/leave-requests}" class="btn btn-success">休暇申請一覧</a>
                     <p class="text-muted small">休暇の申請はこちら</p>
                 </div>
 
