@@ -8,25 +8,36 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h2>名前変更</h2>
+    <div layout:fragment="content" class="container my-5">
+        <div class="text-center">
+            <h2 class="mb-4 fw-bold">名前変更</h2>
 
-        <form th:action="@{/profile/edit-name}" th:object="${nameForm}" method="post">
-            <!-- エラーメッセージ -->
-            <div th:if="${#fields.hasErrors('*')}" style="color: red;">
-                入力内容に誤りがあります。修正してください。
+            <form th:action="@{/profile/edit-name}" th:object="${nameForm}" method="post"
+                class="mx-auto text-start border rounded p-4 shadow-sm bg-light" style="max-width: 400px;">
+
+                <!-- 全体エラー -->
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    入力内容に誤りがあります。修正してください。
+                </div>
+
+                <!-- 名前入力欄 -->
+                <div class="mb-3">
+                    <label class="form-label">新しい名前</label>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="新しい名前を入力" required>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger mt-1"></div>
+                </div>
+
+                <!-- 送信ボタン -->
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-success">変更</button>
+                </div>
+            </form>
+
+            <!-- 戻るリンク -->
+            <div class="text-center mt-4">
+                <a th:href="@{/profile}" class="btn btn-outline-success">プロフィールに戻る</a>
             </div>
-            <div>
-                <label>新しい名前：</label><br>
-                <input type="text" th:field="*{name}" required>
-                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></div>
-            </div>
-
-            <button type="submit">変更</button>
-        </form>
-
-        <br>
-        <a th:href="@{/profile}">プロフィールに戻る</a>
+        </div>
     </div>
 </body>
 
