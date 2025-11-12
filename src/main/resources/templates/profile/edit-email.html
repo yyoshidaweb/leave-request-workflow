@@ -8,25 +8,37 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h2>メールアドレス変更</h2>
+    <div layout:fragment="content" class="container my-5">
+        <div class="text-center">
+            <h2 class="mb-4 fw-bold">メールアドレス変更</h2>
 
-        <form th:action="@{/profile/edit-email}" th:object="${emailForm}" method="post">
-            <!-- エラーメッセージ -->
-            <div th:if="${#fields.hasErrors('*')}" style="color: red;">
-                入力内容に誤りがあります。修正してください。
+            <form th:action="@{/profile/edit-email}" th:object="${emailForm}" method="post"
+                class="mx-auto text-start border rounded p-4 shadow-sm bg-light" style="max-width: 400px;">
+
+                <!-- 全体エラー -->
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    入力内容に誤りがあります。修正してください。
+                </div>
+
+                <!-- メールアドレス入力欄 -->
+                <div class="mb-3">
+                    <label class="form-label">新しいメールアドレス</label>
+                    <input type="email" th:field="*{email}" class="form-control" placeholder="user@example.com"
+                        required>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger mt-1"></div>
+                </div>
+
+                <!-- 送信ボタン -->
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-success">変更</button>
+                </div>
+            </form>
+
+            <!-- 戻るリンク -->
+            <div class="text-center mt-4">
+                <a th:href="@{/profile}" class="btn btn-outline-success">プロフィールに戻る</a>
             </div>
-            <div>
-                <label>新しいメールアドレス：</label><br>
-                <input type="email" th:field="*{email}" required>
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></div>
-            </div>
-
-            <button type="submit">変更</button>
-        </form>
-
-        <br>
-        <a th:href="@{/profile}">プロフィールに戻る</a>
+        </div>
     </div>
 </body>
 
