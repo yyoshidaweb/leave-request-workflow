@@ -37,9 +37,9 @@
                 <hr class="my-1">
             </div>
 
-            <!-- ロール -->
+            <!-- 権限 -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">ロール</label>
+                <label class="form-label fw-semibold">権限</label>
                 <div class="d-flex justify-content-between align-items-center">
                     <span th:switch="${user.roles}">
                         <span th:case="'ROLE_ADMIN'">管理者</span>
@@ -52,7 +52,7 @@
                         <a th:if="${user.id != #authentication.principal.id}"
                             th:href="@{/users/{id}/edit-roles(id=${user.id})}" class="btn btn-success btn-sm">変更</a>
                         <span th:if="${user.id == #authentication.principal.id}" class="text-secondary small">
-                            ※自分自身のロールは変更できません。
+                            ※自分自身の権限は変更できません。
                         </span>
                     </div>
                 </div>
