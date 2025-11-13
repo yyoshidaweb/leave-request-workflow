@@ -28,35 +28,39 @@
                         <div>
                             <!-- 日付範囲 -->
                             <div class="d-flex align-items-center mb-2">
-                                <span class="text-muted small me-2 text-nowrap">休暇期間：</span>
+                                <span class="small me-2 text-nowrap">休暇期間：</span>
                                 <h6 class="card-title mb-0">
                                     <span th:text="${request.startDate}"></span> 〜
                                     <span th:text="${request.endDate}"></span>
                                 </h6>
                             </div>
 
-                            <!-- 種別 -->
+                            <!-- ステータス -->
                             <div>
-                                <span class="text-muted small">休暇種別：</span>
-                                <span th:switch="${request.leaveType.label}">
-                                    <span th:case="'有給休暇'" class="badge rounded-pill text-bg-info shadow-sm">有給休暇</span>
-                                    <span th:case="'欠勤'" class="badge rounded-pill text-bg-danger shadow-sm">欠勤</span>
-                                    <span th:case="'特別休暇'"
-                                        class="badge rounded-pill text-bg-warning shadow-sm">特別休暇</span>
-                                    <span th:case="*" class="badge rounded-pill text-bg-secondary shadow-sm"
-                                        th:text="${request.leaveType.label}"></span>
+                                <span class="small">ステータス：</span>
+                                <span th:switch="${request.status.name}">
+                                    <!-- 承認待ち -->
+                                    <span th:case="'PENDING'" th:text="${request.status.label}"
+                                        class="badge text-bg-warning shadow-sm"></span>
+                                    <!-- 承認済み -->
+                                    <span th:case="'APPROVED'" th:text="${request.status.label}"
+                                        class="badge text-bg-success shadow-sm"></span>
+                                    <!-- 却下 -->
+                                    <span th:case="'REJECTED'" th:text="${request.status.label}"
+                                        class="badge text-bg-danger shadow-sm"></span>
+                                    <!-- 取り下げ -->
+                                    <span th:case="'WITHDRAWN'" th:text="${request.status.label}"
+                                        class="badge text-bg-secondary shadow-sm"></span>
+                                    <!-- その他 -->
+                                    <span th:case="*" class="badge text-bg-secondary shadow-sm"
+                                        th:text="${request.status.label}"></span>
                                 </span>
                             </div>
 
-                            <!-- ステータス -->
+                            <!-- 休暇種別 -->
                             <div>
-                                <span class="text-muted small">ステータス：</span>
-                                <span th:switch="${request.status.label}" class="ms-2">
-                                    <span th:case="'承認済み'" class="badge text-bg-success shadow-sm">承認済み</span>
-                                    <span th:case="'却下'" class="badge text-bg-danger shadow-sm">却下</span>
-                                    <span th:case="'申請中'" class="badge text-bg-warning text-dark shadow-sm">申請中</span>
-                                    <span th:case="*" class="badge text-bg-secondary shadow-sm"
-                                        th:text="${request.status.label}"></span>
+                                <span class="small">休暇種別：
+                                    <span th:text="${request.leaveType.label}"></span>
                                 </span>
                             </div>
 
