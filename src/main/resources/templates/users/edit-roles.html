@@ -4,31 +4,60 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ロール変更</title>
+    <title>権限変更</title>
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h2>ロール変更</h2>
-        <form th:action="@{/users/edit-roles}" th:object="${rolesForm}" method="post">
-            <input type="hidden" name="id" th:value="*{id}">
-            <div>
-                <label>新しいロール：</label><br>
-                <select id="roles" name="roles" th:value="*{roles}">
-                    <option value="" selected disabled>-- ロールを選択 --</option>
+    <div layout:fragment="content" class="container mt-5" style="max-width: 400px;">
+
+        <!-- タイトル -->
+        <h2 class="text-center mb-4">権限変更</h2>
+
+        <!-- 成功メッセージ -->
+        <div th:if="${success}" class="alert alert-success text-center" th:text="${success}"></div>
+
+        <!-- 権限変更フォーム -->
+        <form th:action="@{/users/edit-roles}" th:object="${rolesForm}" method="post"
+            class="border rounded p-4 shadow-sm bg-light">
+
+            <!-- ユーザーID（hidden） -->
+            <input type="hidden" name="id" th:value="*{id}" />
+
+            <!-- 権限選択 -->
+            <div class="mb-3">
+                <label for="roles" class="form-label fw-semibold">新しい権限</label>
+                <select id="roles" name="roles" th:value="*{roles}" class="form-select">
+                    <option value="" selected disabled>-- 権限を選択 --</option>
                     <option value="ROLE_USER">一般ユーザー</option>
                     <option value="ROLE_ADMIN">管理者</option>
                 </select>
-                <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" style="color: red;"></div>
-                <div th:if="${error}" class="alert alert-success" th:text="${error}" style="color: red;"></div>
+
+                <!-- バリデーションエラー -->
+                <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" class="text-danger mt-1"></div>
+                <!-- その他エラー -->
+                <div th:if="${error}" class="alert alert-danger mt-2" th:text="${error}"></div>
             </div>
-            <button type="submit">変更</button>
+
+            <!-- 変更ボタン -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success"
+                    th:disabled="${rolesForm.id == #authentication.principal.id}">
+                    変更
+                </button>
+            </div>
+
+            <!-- 本人判定 -->
+            <p th:if="${rolesForm.id == #authentication.principal.id}" class="text-secondary small mt-2 text-center">
+                ※自分自身の権限は変更できません。
+            </p>
+
         </form>
-        <!-- ログイン中のユーザー本人の場合のみ表示 -->
-        <p th:if="${rolesForm.id == #authentication.principal.id}">
-            ※自分自身のロールは変更できません。
-        </p>
-        <a th:href="@{/users/{id}(id=${rolesForm.id})}">ユーザー詳細に戻る</a>
+
+        <!-- 戻るリンク -->
+        <div class="text-center mt-4">
+            <a th:href="@{/users/{id}(id=${rolesForm.id})}" class="btn btn-outline-success">ユーザー詳細に戻る</a>
+        </div>
+
     </div>
 </body>
 

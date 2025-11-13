@@ -8,42 +8,60 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h1>休暇申請の新規作成</h1>
-        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-        <form th:action="@{/user/leave-requests/create}" th:object="${leaveRequestForm}" method="post">
-            <div>
-                <label>休暇開始日:</label>
-                <input type="date" th:field="*{startDate}" required />
-                <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" style="color: red;"></span>
+    <div layout:fragment="content" class="container mt-5" style="max-width: 500px;">
+        <h2 class="text-center mb-4">休暇申請の新規作成</h2>
+
+        <!-- エラー表示 -->
+        <div th:if="${error}" class="alert alert-danger text-center mb-3" th:text="${error}"></div>
+
+        <!-- 申請フォーム -->
+        <form th:action="@{/user/leave-requests/create}" th:object="${leaveRequestForm}" method="post"
+            class="border rounded p-4 shadow-sm bg-light">
+
+            <div class="mb-3">
+                <label class="form-label">休暇開始日</label>
+                <input type="date" th:field="*{startDate}" class="form-control" required />
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">
+                </div>
             </div>
-            <div>
-                <label>休暇終了日:</label>
-                <input type="date" th:field="*{endDate}" required />
-                <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" style="color: red;"></span>
+
+            <div class="mb-3">
+                <label class="form-label">休暇終了日</label>
+                <input type="date" th:field="*{endDate}" class="form-control" required />
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">
+                </div>
             </div>
-            <div>
-                <label>休暇種別:</label>
-                <select name="leaveType" required>
+
+            <div class="mb-3">
+                <label class="form-label">休暇種別</label>
+                <select name="leaveType" class="form-select" required>
                     <option value="" selected disabled>-- 休暇種別を選択 --</option>
                     <option th:each="type : ${T(com.example.leave_request_workflow.entity.enums.LeaveType).values()}"
                         th:value="${type.name()}" th:text="${type.label}">
                     </option>
                 </select>
-                <span th:if="${#fields.hasErrors('leaveType')}" th:errors="*{leaveType}" style="color: red;"></span>
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('leaveType')}" th:errors="*{leaveType}">
+                </div>
             </div>
-            <div>
-                <label>理由:</label>
-                <textarea th:field="*{reason}" required></textarea>
-                <span th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}" style="color: red;"></span>
+
+            <div class="mb-3">
+                <label class="form-label">理由</label>
+                <textarea th:field="*{reason}" class="form-control" rows="3" placeholder="休暇の理由を入力してください"
+                    required></textarea>
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}"></div>
             </div>
-            <div>
-                <button type="submit">申請する</button>
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-success">申請する</button>
             </div>
         </form>
 
         <!-- 一覧ページへのリンク -->
-        <p><a th:href="@{/user/leave-requests}">休暇申請一覧に戻る</a></p>
+        <div class="text-center mt-4">
+            <a th:href="@{/user/leave-requests}" class="btn btn-outline-success btn-sm">
+                休暇申請一覧に戻る
+            </a>
+        </div>
     </div>
 </body>
 

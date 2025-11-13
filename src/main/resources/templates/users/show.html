@@ -8,55 +8,71 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h1>ユーザー詳細</h1>
+    <div layout:fragment="content" class="container mt-5" style="max-width: 500px;">
 
-        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+        <!-- タイトル -->
+        <h2 class="text-center mb-4">ユーザー詳細</h2>
 
-        <table>
-            <tr>
-                <th>名前</th>
-                <td th:text="${user.name}"></td>
-                <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
-                <td th:if="${user.id != #authentication.principal.id}">
-                    変更不可
-                </td>
-            </tr>
-            <tr>
-                <th>メールアドレス</th>
-                <td th:text="${user.email}"></td>
-                <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
-                <td th:if="${user.id != #authentication.principal.id}">
-                    変更不可
-                </td>
-            </tr>
-            <tr>
-                <th>ロール</th>
-                <td th:switch="${user.roles}">
-                    <span th:case="'ROLE_ADMIN'">管理者</span>
-                    <span th:case="'ROLE_USER'">一般ユーザー</span>
-                    <span th:case="*">不明</span>
-                </td>
-                <td>
-                    <!-- ログイン中のユーザー本人以外の場合のみ表示 -->
-                    <a th:if="${user.id != #authentication.principal.id}"
-                        th:href="@{/users/{id}/edit-roles(id=${user.id})}">
-                        変更
-                    </a>
-                    <!-- ログイン中のユーザー本人の場合のみ表示 -->
-                    <p th:if="${user.id == #authentication.principal.id}">
-                        ※自分自身のロールは変更できません。
-                    </p>
-                </td>
-            </tr>
-        </table>
-        <!-- ログイン中のユーザー本人の場合のみ表示 -->
-        <a th:href="@{/profile}" th:if="${user.id == #authentication.principal.id}">
-            プロフィール編集はこちら
-        </a><br>
-        <a th:href="@{/users}">
-            ユーザー一覧に戻る
-        </a>
+        <!-- 成功メッセージ -->
+        <div th:if="${success}" class="alert alert-success text-center" th:text="${success}"></div>
+
+        <!-- 詳細カード -->
+        <div class="border rounded p-4 shadow-sm bg-light">
+
+            <!-- 名前 -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">名前</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span th:text="${user.name}"></span>
+                </div>
+                <hr class="my-1">
+            </div>
+
+            <!-- メールアドレス -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">メールアドレス</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span th:text="${user.email}"></span>
+                </div>
+                <hr class="my-1">
+            </div>
+
+            <!-- 権限 -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">権限</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span th:switch="${user.roles}">
+                        <span th:case="'ROLE_ADMIN'">管理者</span>
+                        <span th:case="'ROLE_USER'">一般ユーザー</span>
+                        <span th:case="*">不明</span>
+                    </span>
+
+                    <!-- 編集ボタンまたは説明文 -->
+                    <div>
+                        <a th:if="${user.id != #authentication.principal.id}"
+                            th:href="@{/users/{id}/edit-roles(id=${user.id})}" class="btn btn-success btn-sm">変更</a>
+                        <span th:if="${user.id == #authentication.principal.id}" class="text-secondary small">
+                            ※自分自身の権限は変更できません。
+                        </span>
+                    </div>
+                </div>
+                <hr class="my-1">
+            </div>
+
+            <!-- 本人の場合：プロフィール編集リンク -->
+            <div th:if="${user.id == #authentication.principal.id}" class="mb-3 text-center">
+                <a th:href="@{/profile}" class="btn btn-outline-success">プロフィール編集はこちら</a>
+            </div>
+
+            <!-- エラー表示 -->
+            <div th:if="${error}" class="alert alert-danger text-center mt-3" th:text="${error}"></div>
+
+        </div>
+
+        <!-- 戻るボタン -->
+        <div class="text-center mt-4">
+            <a th:href="@{/users}" class="btn btn-outline-success px-4">ユーザー一覧に戻る</a>
+        </div>
     </div>
 </body>
 

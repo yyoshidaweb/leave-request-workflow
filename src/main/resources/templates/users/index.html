@@ -8,32 +8,49 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h1>ユーザー一覧</h1>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>名前</th>
-                <th>メールアドレス</th>
-                <th>権限</th>
-            </tr>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:switch="${user.roles}">
-                    <span th:case="'ROLE_ADMIN'">管理者</span>
-                    <span th:case="'ROLE_USER'">一般ユーザー</span>
-                    <span th:case="*">不明</span>
-                </td>
-                <td>
-                    <a th:href="@{/users/{id}(id=${user.id})}">
-                        編集
-                    </a>
-                </td>
-            </tr>
-        </table>
-        <a th:href="@{/dashboard}">ダッシュボードに戻る</a>
+    <div layout:fragment="content" class="container my-5">
+
+        <!-- タイトル -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">ユーザー一覧</h2>
+            <p th:if="${success}" th:text="${success}" class="text-success fw-semibold"></p>
+        </div>
+
+        <!-- ユーザーカード一覧 -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div th:each="user : ${users}" class="card mb-3 shadow-sm border-0">
+                    <div class="card-body bg-light rounded d-flex justify-content-between align-items-center">
+                        <!-- 左側：ユーザー情報 -->
+                        <div class="w-75">
+                            <h5 class="fw-bold mb-2" th:text="${user.name}"></h5>
+                            <div class="small mb-2">
+                                権限：
+                                <span th:switch="${user.roles}">
+                                    <span th:case="'ROLE_ADMIN'"
+                                        class="badge rounded-pill text-bg-dark shadow-sm">管理者</span>
+                                    <span th:case="'ROLE_USER'"
+                                        class="badge rounded-pill text-bg-light shadow-sm">一般ユーザー</span>
+                                    <span th:case="*" class="badge rounded-pill text-bg-secondary shadow-sm">不明</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- 右側：詳細ボタン -->
+                        <div>
+                            <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-success btn-sm text-nowrap">
+                                詳細
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 戻るリンク -->
+                <div class="text-center mt-4">
+                    <a th:href="@{/dashboard}" class="btn btn-outline-success px-4">ダッシュボードに戻る</a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

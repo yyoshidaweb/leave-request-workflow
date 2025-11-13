@@ -8,68 +8,126 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h1>休暇申請詳細</h1>
-        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
-        <table>
-            <tr>
-                <th>ユーザー名</th>
-                <td th:text="${leaveRequest.user.name}"></td>
-            </tr>
-            <tr>
-                <th>申請日時</th>
-                <td th:text="${#temporals.format(leaveRequest.appliedAt, 'yyyy-MM-dd HH:mm')}"></td>
-            </tr>
-            <tr>
-                <th>開始日</th>
-                <td th:text="${leaveRequest.startDate}"></td>
-            </tr>
-            <tr>
-                <th>終了日</th>
-                <td th:text="${leaveRequest.endDate}"></td>
-            </tr>
-            <tr>
-                <th>休暇種別</th>
-                <td th:text="${leaveRequest.leaveType.label}"></td>
-            </tr>
-            <tr>
-                <th>理由</th>
-                <td th:text="${leaveRequest.reason}"></td>
-            </tr>
-            <tr>
-                <th>ステータス</th>
-                <td th:text="${leaveRequest.status.label}"></td>
-            </tr>
-            <tr>
-                <th>承認日時</th>
-                <td th:text="${#temporals.format(leaveRequest.approvedAt, 'yyyy-MM-dd HH:mm')}"></td>
-            </tr>
-            <tr>
-                <th>却下日時</th>
-                <td th:text="${#temporals.format(leaveRequest.rejectedAt, 'yyyy-MM-dd HH:mm')}"></td>
-            </tr>
-            <tr>
-                <th>管理者コメント</th>
-                <td th:text="${leaveRequest.adminComment}"></td>
-                <td>
-                    <a th:href="@{/admin/leave-requests/{id}/edit-admin-comment(id=${leaveRequest.id})}">
-                        編集
-                    </a>
-                </td>
-            </tr>
-        </table>
-        <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/admin/leave-requests/reject}"
-            method="post" onsubmit="return confirm('この申請を却下しますか？この操作は取り消せません。');">
-            <input type="hidden" name="id" th:value="${leaveRequest.id}" />
-            <button type="submit">却下</button>
-        </form>
-        <form th:if="${leaveRequest.status.name() == 'PENDING'}" th:action="@{/admin/leave-requests/approve}"
-            method="post" onsubmit="return confirm('この申請を承認しますか？この操作は取り消せません。');">
-            <input type="hidden" name="id" th:value="${leaveRequest.id}" />
-            <button type="submit">承認</button>
-        </form>
-        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-        <a th:href="@{/admin/leave-requests}">休暇申請一覧に戻る</a>
+    <div layout:fragment="content" class="container my-5">
+
+        <!-- タイトル -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">休暇申請詳細</h2>
+            <p th:if="${success}" th:text="${success}" class="text-success fw-semibold"></p>
+        </div>
+
+        <!-- 詳細カード -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body bg-light rounded">
+
+                        <!-- ユーザー名 -->
+                        <div class="mb-3">
+                            <h5 class="fw-bold mb-2">
+                                <span th:text="${leaveRequest.user.name}"></span>
+                                <span>さんの申請</span>
+                            </h5>
+                        </div>
+
+                        <!-- ステータス -->
+                        <div class="mb-3">
+                            <span class="fw-semibold">ステータス：</span>
+                            <span th:switch="${leaveRequest.status.name}">
+                                <span th:case="'PENDING'" th:text="${leaveRequest.status.label}"
+                                    class="badge text-bg-warning shadow-sm"></span>
+                                <span th:case="'APPROVED'" th:text="${leaveRequest.status.label}"
+                                    class="badge text-bg-success shadow-sm"></span>
+                                <span th:case="'REJECTED'" th:text="${leaveRequest.status.label}"
+                                    class="badge text-bg-danger shadow-sm"></span>
+                                <span th:case="'WITHDRAWN'" th:text="${leaveRequest.status.label}"
+                                    class="badge text-bg-secondary shadow-sm"></span>
+                                <span th:case="*" th:text="${leaveRequest.status.label}"
+                                    class="badge text-bg-secondary shadow-sm"></span>
+                            </span>
+                        </div>
+
+                        <!-- 休暇期間 -->
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="me-2 fw-semibold text-nowrap">休暇期間：</span>
+                            <span th:text="${leaveRequest.startDate}"></span> 〜
+                            <span th:text="${leaveRequest.endDate}"></span>
+                        </div>
+
+                        <!-- 休暇種別 -->
+                        <div class="mb-3">
+                            <span class="fw-semibold">休暇種別：</span>
+                            <span th:text="${leaveRequest.leaveType.label}"></span>
+                        </div>
+
+                        <!-- 理由 -->
+                        <div class="mb-3">
+                            <span class="fw-semibold">理由：</span>
+                            <p class="mb-0" th:text="${leaveRequest.reason}"></p>
+                        </div>
+
+                        <!-- 管理者コメント -->
+                        <div class="mb-3">
+                            <span class="fw-semibold">管理者コメント：</span>
+                            <p th:unless="${leaveRequest.adminComment}">-</p>
+                            <p class="mb-0" th:text="${leaveRequest.adminComment}"></p>
+                        </div>
+
+                        <!-- エラー -->
+                        <p th:if="${error}" th:text="${error}" class="text-danger fw-semibold mt-3"></p>
+
+                        <!-- 操作ボタン -->
+                        <div class="d-flex justify-content-end gap-2 mt-2">
+                            <!-- 管理者コメント編集ボタン -->
+                            <a th:href="@{/admin/leave-requests/{id}/edit-admin-comment(id=${leaveRequest.id})}"
+                                class="btn btn-sm btn-secondary d-flex align-items-center">コメントを編集
+                            </a>
+
+                            <!-- 却下ボタン -->
+                            <form th:if="${leaveRequest.status.name() == 'PENDING'}"
+                                th:action="@{/admin/leave-requests/reject}" method="post"
+                                onsubmit="return confirm('この申請を却下しますか？この操作は取り消せません。');">
+                                <input type="hidden" name="id" th:value="${leaveRequest.id}" />
+                                <button type="submit" class="btn btn-danger">却下</button>
+                            </form>
+
+                            <!-- 承認ボタン -->
+                            <form th:if="${leaveRequest.status.name() == 'PENDING'}"
+                                th:action="@{/admin/leave-requests/approve}" method="post"
+                                onsubmit="return confirm('この申請を承認しますか？この操作は取り消せません。');">
+                                <input type="hidden" name="id" th:value="${leaveRequest.id}" />
+                                <button type="submit" class="btn btn-success">承認</button>
+                            </form>
+                        </div>
+
+                        <!-- 申請日・承認日・却下日 -->
+                        <div class="border-top pt-3 mt-4">
+                            <p class="small text-muted mb-1">
+                                申請日時：
+                                <span th:text="${#temporals.format(leaveRequest.appliedAt, 'yyyy-MM-dd HH:mm')}"></span>
+                            </p>
+                            <p class="small text-muted mb-1" th:if="${leaveRequest.approvedAt != null}">
+                                承認日時：
+                                <span
+                                    th:text="${#temporals.format(leaveRequest.approvedAt, 'yyyy-MM-dd HH:mm')}"></span>
+                            </p>
+                            <p class="small text-muted mb-1" th:if="${leaveRequest.rejectedAt != null}">
+                                却下日時：
+                                <span
+                                    th:text="${#temporals.format(leaveRequest.rejectedAt, 'yyyy-MM-dd HH:mm')}"></span>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 戻るリンク -->
+        <div class="text-center mt-4">
+            <a th:href="@{/admin/leave-requests}" class="btn btn-outline-success px-4">休暇申請一覧に戻る</a>
+        </div>
+
     </div>
 </body>
 

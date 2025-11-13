@@ -86,9 +86,13 @@ public class ProfileController {
      * 名前変更ページを表示
      */
     @GetMapping("/profile/edit-name")
-    public String showEditNameForm(Model model) {
-        // 名前変更フォームを初期化してテンプレートに渡す
-        model.addAttribute("nameForm", new NameForm());
+    public String showEditNameForm(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+            Model model) {
+        User user = userService.findById(loginUserDetails.getId());
+        NameForm nameForm = new NameForm();
+        nameForm.setName(user.getName());
+        // 名前変更フォームをテンプレートに渡す
+        model.addAttribute("nameForm", nameForm);
         return "profile/edit-name"; // 名前変更ページを表示
     }
 
@@ -113,9 +117,13 @@ public class ProfileController {
      * メールアドレス変更ページを表示
      */
     @GetMapping("/profile/edit-email")
-    public String showEditEmailForm(Model model) {
+    public String showEditEmailForm(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+            Model model) {
+        User user = userService.findById(loginUserDetails.getId());
+        EmailForm emailForm = new EmailForm();
+        emailForm.setEmail(user.getEmail());
         // メールアドレス変更フォームを初期化してテンプレートに渡す
-        model.addAttribute("emailForm", new EmailForm());
+        model.addAttribute("emailForm", emailForm);
         return "profile/edit-email"; // メールアドレス変更ページを表示
     }
 

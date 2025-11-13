@@ -8,40 +8,66 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h1>プロフィール</h1>
+    <div layout:fragment="content" class="container mt-5" style="max-width: 400px;">
+        <h2 class="text-center mb-4">プロフィール</h2>
 
-        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+        <!-- 成功メッセージ -->
+        <div th:if="${success}" class="alert alert-success text-center" th:text="${success}"></div>
 
-        <table>
-            <tr>
-                <th>名前</th>
-                <td th:text="${user.name}"></td>
-                <td th:unless="${isTestAdmin}"><a th:href="@{/profile/edit-name}">変更</a></td>
-                <!-- テスト管理者は非活性表示（リンクなし） -->
-                <td th:if="${isTestAdmin}" style="color: gray;">変更不可</td>
-            </tr>
-            <tr>
-                <th>メールアドレス</th>
-                <td th:text="${user.email}"></td>
-                <td th:unless="${isTestAdmin}"><a th:href="@{/profile/edit-email}">変更</a></td>
-                <!-- テスト管理者は非活性表示（リンクなし） -->
-                <td th:if="${isTestAdmin}" style="color: gray;">変更不可</td>
-            </tr>
-            <tr>
-                <th>パスワード</th>
-                <td>非表示</td>
-                <td th:unless="${isTestAdmin}"><a th:href="@{/profile/edit-password}">変更</a></td>
-                <!-- テスト管理者は非活性表示（リンクなし） -->
-                <td th:if="${isTestAdmin}" style="color: gray;">変更不可</td>
-            </tr>
-        </table>
-        <form th:action="@{/profile/delete}" method="post" onsubmit="return confirm('本当にアカウントを削除しますか？この操作は取り消せません。');">
-            <button type="submit" th:disabled="${isTestAdmin}" class="btn btn-danger">アカウント削除</button>
-            <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-        </form>
-        <p th:if="${isTestAdmin}" style="color: gray;">※テスト用管理者のプロフィールは編集できません。</p>
-        <a th:href="@{/dashboard}">ダッシュボードに戻る</a>
+        <div class="border rounded p-4 shadow-sm bg-light">
+            <!-- 名前 -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">名前</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span th:text="${user.name}"></span>
+                    <a th:href="@{/profile/edit-name}" th:unless="${isTestAdmin}" class="btn btn-success btn-sm">編集</a>
+                    <span th:if="${isTestAdmin}" class="text-secondary small">編集不可</span>
+                </div>
+                <hr class="my-1">
+            </div>
+
+            <!-- メールアドレス -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">メールアドレス</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span th:text="${user.email}"></span>
+                    <a th:href="@{/profile/edit-email}" th:unless="${isTestAdmin}" class="btn btn-success btn-sm">編集</a>
+                    <span th:if="${isTestAdmin}" class="text-secondary small">編集不可</span>
+                </div>
+                <hr class="my-1">
+            </div>
+
+            <!-- パスワード -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">パスワード</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>●●●●●●●●</span>
+                    <a th:href="@{/profile/edit-password}" th:unless="${isTestAdmin}"
+                        class="btn btn-success btn-sm">編集</a>
+                    <span th:if="${isTestAdmin}" class="text-secondary small">編集不可</span>
+                </div>
+                <hr class="my-1">
+            </div>
+
+            <!-- アカウント削除 -->
+            <form th:action="@{/profile/delete}" method="post"
+                onsubmit="return confirm('本当にアカウントを削除しますか？この操作は取り消せません。');" class="mt-4">
+                <div class="d-grid">
+                    <button type="submit" th:disabled="${isTestAdmin}" class="btn btn-outline-danger">アカウント削除</button>
+                </div>
+            </form>
+
+            <div th:if="${error}" class="alert alert-danger text-center mt-3" th:text="${error}"></div>
+
+            <p th:if="${isTestAdmin}" class="text-secondary small text-center mt-2">
+                ※テスト用管理者のプロフィールは編集できません。
+            </p>
+        </div>
+
+        <!-- 戻るボタン -->
+        <div class="text-center mt-4">
+            <a th:href="@{/dashboard}" class="btn btn-outline-success">ダッシュボードに戻る</a>
+        </div>
     </div>
 </body>
 

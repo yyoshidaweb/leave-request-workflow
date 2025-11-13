@@ -8,30 +8,43 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h1>ダッシュボード</h1>
-        <p>こんにちは、<span sec:authentication="principal.name"></span>さん。</p>
-        <p>あなたの権限 =
-            <!-- 管理者にのみ表示 -->
-            <span sec:authorize="hasRole('ADMIN')">管理者</span>
-            <!-- 一般ユーザーにのみ表示 -->
-            <span sec:authorize="hasRole('USER')">一般ユーザー</span>
-        </p>
-        <!-- 管理者にのみ表示 -->
-        <a th:href="@{/users}" sec:authorize="hasRole('ADMIN')">
-            ユーザー一覧
-        </a><br>
-        <a th:href="@{/profile}">
-            プロフィールを編集する
-        </a><br>
-        <!-- 一般ユーザーにのみ表示 -->
-        <a th:href="@{/user/leave-requests}" sec:authorize="hasRole('USER')">
-            休暇申請一覧
-        </a><br>
-        <!-- 管理者にのみ表示 -->
-        <a th:href="@{/admin/leave-requests}" sec:authorize="hasRole('ADMIN')">
-            全ユーザーの休暇申請一覧
-        </a>
+    <div layout:fragment="content" class="container my-5">
+        <div class="text-center">
+            <h1 class="mb-4 fw-bold">ダッシュボード</h1>
+            <p class="lead">
+                こんにちは、<span sec:authentication="principal.name"></span>さん。
+            </p>
+            <p class="mb-4">
+                あなたの権限 =
+                <span sec:authorize="hasRole('ADMIN')" class="badge rounded-pill text-bg-dark shadow-sm">管理者</span>
+                <span sec:authorize="hasRole('USER')" class="badge rounded-pill text-bg-light shadow-sm">一般ユーザー</span>
+            </p>
+
+            <div class="d-flex flex-column align-items-center gap-3 mb-4">
+                <!-- 管理者向けリンク -->
+                <div class="d-flex flex-column align-items-center gap-2" sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin/leave-requests}" class="btn btn-success">休暇申請一覧</a>
+                    <p class="text-muted small">休暇申請の承認処理はこちら</p>
+                </div>
+
+                <div class="d-flex flex-column align-items-center gap-2" sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/users}" class="btn btn-success">ユーザー一覧</a>
+                    <p class="text-muted small">ユーザーの権限変更はこちら</p>
+                </div>
+
+                <!-- 一般ユーザー向けリンク -->
+                <div class="d-flex flex-column align-items-center gap-2" sec:authorize="hasRole('USER')">
+                    <a th:href="@{/user/leave-requests}" class="btn btn-success">休暇申請一覧</a>
+                    <p class="text-muted small">休暇の申請はこちら</p>
+                </div>
+
+                <!-- 共通リンク -->
+                <div class="d-flex flex-column align-items-center gap-2">
+                    <a th:href="@{/profile}" class="btn btn-success">プロフィール</a>
+                    <p class="text-muted small">プロフィールの編集はこちら</p>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

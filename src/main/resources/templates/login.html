@@ -8,35 +8,56 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <form th:action="@{/login}" method="post">
-            <div th:if="${success}" class="alert alert-success" th:text="${success}" style="color: green;"></div>
-            <h3>ログインしてください。</h3>
-            <div th:if="${param.error}">
+    <div layout:fragment="content" class="container mt-5" style="max-width: 400px;">
+        <h2 class="text-center mb-4">ログイン</h2>
+
+        <div th:if="${success}" class="alert alert-success text-center" th:text="${success}"></div>
+
+        <form th:action="@{/login}" method="post" class="border rounded p-4 shadow-sm bg-light">
+            <div th:if="${param.error}" class="alert alert-danger mb-3">
                 <div th:if="${session.containsKey('SPRING_SECURITY_LAST_EXCEPTION')}">
-                    <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}" style="color: red;"></span>
+                    <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
                 </div>
             </div>
-            <input type="text" name="username" placeholder="ユーザー名" required />
-            <input type="password" name="password" placeholder="パスワード" required />
-            <button name="Submit" value="Login" type="Submit">ログイン</button>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">メールアドレス</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="user@example.com"
+                    required />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">パスワード</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="パスワード"
+                    required />
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">ログイン</button>
+            </div>
         </form>
-        <p>
-            ※管理者の操作を体験したい場合は、以下のテスト管理者のメールアドレスとパスワードでログインしてください。
-        </p>
-        <table>
-            <tr>
-                <th>メールアドレス</th>
-                <td>test-admin@example.com</td>
-            </tr>
-            <tr>
-                <th>パスワード</th>
-                <td>password</td>
-            </tr>
-        </table>
-        <a th:href="@{/register}" sec:authorize="!isAuthenticated()">
-            新規登録はこちら
-        </a>
+
+        <div class="mt-4 text-center">
+            <p class="text-muted small">
+                管理者の操作を体験したい場合は、以下のテスト管理者でログインできます。
+            </p>
+            <table class="table table-bordered table-sm">
+                <tr>
+                    <th>メールアドレス</th>
+                    <td>test-admin@example.com</td>
+                </tr>
+                <tr>
+                    <th>パスワード</th>
+                    <td>password</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="text-center mt-3">
+            <a th:href="@{/register}" sec:authorize="!isAuthenticated()" class="btn btn-outline-secondary">
+                新規登録はこちら
+            </a>
+        </div>
     </div>
 </body>
 

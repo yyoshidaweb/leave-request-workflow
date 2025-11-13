@@ -4,72 +4,112 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>休暇申請一覧</title>
+    <title>休暇申請一覧（管理者用）</title>
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h2>休暇申請一覧</h2>
-        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
-        <!-- ステータスフィルタ -->
-        <form th:action="@{/admin/leave-requests}" method="get">
-            <label>ステータス:</label>
-            <select name="status">
-                <option th:value="${null}" th:text="'すべて'" th:selected="${selectedStatus == null}"></option>
-                <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st.label}"
-                    th:selected="${st == selectedStatus}">
-                </option>
-            </select>
-            <button type="submit">絞り込み</button>
-        </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>ユーザー名</th>
-                    <th>申請日</th>
-                    <th>開始日</th>
-                    <th>終了日</th>
-                    <th>種別</th>
-                    <th>理由</th>
-                    <th>ステータス</th>
-                    <th>承認日時</th>
-                    <th>却下日時</th>
-                    <th>管理者コメント</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="request : ${leaveRequests}">
-                    <td th:text="${request.user.name}"></td>
-                    <td th:text="${#temporals.format(request.appliedAt, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${request.startDate}"></td>
-                    <td th:text="${request.endDate}"></td>
-                    <td th:text="${request.leaveType.label}"></td>
-                    <td th:text="${request.reason}"></td>
-                    <td th:text="${request.status.label}"></td>
-                    <td
-                        th:text="${request.approvedAt != null ? #temporals.format(request.approvedAt, 'yyyy-MM-dd HH:mm') : ''}">
-                    </td>
-                    <td
-                        th:text="${request.rejectedAt != null ? #temporals.format(request.rejectedAt, 'yyyy-MM-dd HH:mm') : ''}">
-                    </td>
-                    <td th:text="${request.adminComment}"></td>
-                    <td>
-                        <a th:href="@{/admin/leave-requests/{id}(id=${request.id})}">詳細</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div>
-            <span th:if="${leaveRequests.hasPrevious()}">
-                <a th:href="@{/admin/leave-requests(page=${currentPage - 1}, status=${selectedStatus})}">前へ</a>
-            </span>
-            <span>ページ <span th:text="${currentPage + 1}"></span> / <span
-                    th:text="${leaveRequests.totalPages}"></span></span>
-            <span th:if="${leaveRequests.hasNext()}">
-                <a th:href="@{/admin/leave-requests(page=${currentPage + 1}, status=${selectedStatus})}">次へ</a>
-            </span>
+    <div layout:fragment="content" class="container my-5">
+
+        <!-- タイトル -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">休暇申請一覧（管理者用）</h2>
+            <p th:if="${success}" th:text="${success}" class="text-success fw-semibold"></p>
         </div>
-        <a th:href="@{/dashboard}">ダッシュボードに戻る</a>
+
+        <!-- ステータスフィルタ -->
+        <form th:action="@{/admin/leave-requests}" method="get"
+            class="row g-2 justify-content-center align-items-center mb-4">
+            <div class="col-auto">
+                <label class="col-form-label fw-semibold">ステータス：</label>
+            </div>
+            <div class="col-auto">
+                <select name="status" class="form-select">
+                    <option th:value="${null}" th:text="'すべて'" th:selected="${selectedStatus == null}"></option>
+                    <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st.label}"
+                        th:selected="${st == selectedStatus}"></option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success px-4">絞り込み</button>
+            </div>
+        </form>
+
+        <!-- 申請一覧カード -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+
+                <div th:each="request : ${leaveRequests}" class="card mb-3 shadow-sm border-0">
+                    <div class="card-body bg-light rounded d-flex justify-content-between align-items-center">
+                        <!-- 左側 -->
+                        <div class="w-75">
+                            <h6 class="fw-bold mb-1">
+                                <span th:text="${request.user.name}"></span> さんの申請
+                            </h6>
+
+                            <!-- ステータス -->
+                            <div class="mb-2">
+                                <span class="small">ステータス：</span>
+                                <span th:switch="${request.status.name}">
+                                    <span th:case="'PENDING'" th:text="${request.status.label}"
+                                        class="badge text-bg-warning shadow-sm"></span>
+                                    <span th:case="'APPROVED'" th:text="${request.status.label}"
+                                        class="badge text-bg-success shadow-sm"></span>
+                                    <span th:case="'REJECTED'" th:text="${request.status.label}"
+                                        class="badge text-bg-danger shadow-sm"></span>
+                                    <span th:case="'WITHDRAWN'" th:text="${request.status.label}"
+                                        class="badge text-bg-secondary shadow-sm"></span>
+                                    <span th:case="*" class="badge text-bg-secondary shadow-sm"
+                                        th:text="${request.status.label}"></span>
+                                </span>
+                            </div>
+
+                            <div class="small mb-1">
+                                休暇期間：
+                                <span th:text="${request.startDate}"></span> 〜
+                                <span th:text="${request.endDate}"></span>
+                            </div>
+
+                            <div class="small mb-1">
+                                休暇種別：
+                                <span th:text="${request.leaveType.label}"></span>
+                            </div>
+
+                            <div class="small mb-1 text-muted">
+                                申請日：
+                                <span th:text="${#temporals.format(request.appliedAt, 'yyyy-MM-dd HH:mm')}"></span>
+                            </div>
+                        </div>
+
+                        <!-- 右側-->
+                        <div>
+                            <!-- 詳細ボタン -->
+                            <a th:href="@{/admin/leave-requests/{id}(id=${request.id})}"
+                                class="btn btn-success btn-sm text-nowrap">詳細</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ページネーション -->
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <a th:if="${leaveRequests.hasPrevious()}"
+                        th:href="@{/admin/leave-requests(page=${currentPage - 1}, status=${selectedStatus})}"
+                        class="btn btn-outline-secondary btn-sm">前へ</a>
+                    <span class="text-muted small">
+                        ページ [[${currentPage + 1}]] / [[${leaveRequests.totalPages}]]
+                    </span>
+                    <a th:if="${leaveRequests.hasNext()}"
+                        th:href="@{/admin/leave-requests(page=${currentPage + 1}, status=${selectedStatus})}"
+                        class="btn btn-outline-secondary btn-sm">次へ</a>
+                </div>
+
+                <!-- 戻る -->
+                <div class="text-center mt-4">
+                    <a th:href="@{/dashboard}" class="btn btn-outline-success px-4">
+                        ダッシュボードに戻る
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
