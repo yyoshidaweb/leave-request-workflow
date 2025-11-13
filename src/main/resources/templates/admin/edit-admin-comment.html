@@ -8,15 +8,39 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h1>管理者コメント編集</h1>
-        <form th:action="@{/admin/leave-requests/admin-comment}" th:object="${form}" method="post">
+    <div layout:fragment="content" class="container mt-5" style="max-width: 500px;">
+        <h2 class="text-center mb-4">管理者コメント編集</h2>
+
+        <!-- 成功メッセージ -->
+        <div th:if="${success}" class="alert alert-success text-center" th:text="${success}"></div>
+
+        <!-- フォーム -->
+        <form th:action="@{/admin/leave-requests/admin-comment}" th:object="${form}" method="post"
+            class="border rounded p-4 shadow-sm bg-light">
             <input type="hidden" name="id" th:value="${form.id}" required />
-            <textarea name="adminComment" rows="3" cols="40" th:text="${form.adminComment}"></textarea>
-            <button type="submit">コメントを更新</button>
+
+            <div class="mb-3">
+                <label for="adminComment" class="form-label">管理者コメント</label>
+                <textarea id="adminComment" name="adminComment" rows="4" class="form-control"
+                    th:text="${form.adminComment}" required></textarea>
+                <span th:if="${#fields.hasErrors('adminComment')}" th:errors="*{adminComment}"
+                    class="text-danger small"></span>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">コメントを更新</button>
+            </div>
         </form>
-        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-        <a th:href="@{/admin/leave-requests/{id}(id=${form.id})}">休暇申請詳細に戻る</a>
+
+        <!-- エラーメッセージ -->
+        <p th:if="${error}" th:text="${error}" class="text-danger fw-semibold mt-3 text-center"></p>
+
+        <!-- 戻るリンク -->
+        <div class="text-center mt-4">
+            <a th:href="@{/admin/leave-requests/{id}(id=${form.id})}" class="btn btn-outline-secondary px-4">
+                休暇申請詳細に戻る
+            </a>
+        </div>
     </div>
 </body>
 
