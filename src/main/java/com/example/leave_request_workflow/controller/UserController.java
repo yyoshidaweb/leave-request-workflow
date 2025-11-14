@@ -41,6 +41,8 @@ public class UserController {
     @GetMapping("/users/{id}")
     public String showUser(@PathVariable Integer id, Model model) {
         User user = userService.findById(id);
+        String maskedEmail = userService.maskEmail(user.getEmail());
+        model.addAttribute("maskedEmail", maskedEmail);
         model.addAttribute("user", user);
         return "users/show";
     }

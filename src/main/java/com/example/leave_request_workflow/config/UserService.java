@@ -139,4 +139,33 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
+    /**
+     * メールアドレスをマスクする
+     */
+    public String maskEmail(String email) {
+        // @前後で分割
+        String[] parts = email.split("@");
+        // @以前部分
+        String local = parts[0];
+        // @以降部分（ドメイン）
+        String domain = parts[1];
+
+        String maskedLocal = local.length() <= 2 ? local + "****" : local.substring(0, 2) + "****";
+        String[] domainParts = domain.split("\\.", 2);
+        String maskedDomain;
+        if (domainParts.length == 2) {
+            // ドメイン名部分をマスク
+            String domainName = domainParts[0].length() <= 2 ? domainParts[0] + "****"
+                    : domainParts[0].substring(0, 2) + "****";
+            // TLD部分をマスク
+            String tld = domainParts[1].length() <= 2 ? domainParts[1] + "****"
+                    : domainParts[1].substring(0, 2) + "****";
+            maskedDomain = domainName + "." + tld;
+        } else {
+            // 「.」がない場合はそのままマスク
+            maskedDomain = domain.length() <= 2 ? domain + "****" : domain.substring(0, 2) + "****";
+        }
+        return maskedLocal + "@" + maskedDomain;
+    }
 }

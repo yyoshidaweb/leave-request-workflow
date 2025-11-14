@@ -31,8 +31,11 @@
             <!-- メールアドレス -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">メールアドレス</label>
-                <div class="d-flex justify-content-between align-items-center">
-                    <span th:text="${user.email}"></span>
+                <div>
+                    <!-- マスクされたメールアドレスを表示 -->
+                    <span th:text="${maskedEmail}"></span>
+                    <p class="text-muted small">
+                        デモアプリのため、メールアドレスは一部を伏せて表示しています。</p>
                 </div>
                 <hr class="my-1">
             </div>
