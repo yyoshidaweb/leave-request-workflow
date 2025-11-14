@@ -93,13 +93,13 @@
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <a th:if="${leaveRequests.hasPrevious()}"
                         th:href="@{/admin/leave-requests(page=${currentPage - 1}, status=${selectedStatus})}"
-                        class="btn btn-outline-secondary btn-sm">前へ</a>
+                        class="btn btn-outline-success btn-sm">前へ</a>
                     <span class="text-muted small">
                         ページ [[${currentPage + 1}]] / [[${leaveRequests.totalPages}]]
                     </span>
                     <a th:if="${leaveRequests.hasNext()}"
                         th:href="@{/admin/leave-requests(page=${currentPage + 1}, status=${selectedStatus})}"
-                        class="btn btn-outline-secondary btn-sm">次へ</a>
+                        class="btn btn-outline-success btn-sm">次へ</a>
                 </div>
 
                 <!-- 戻る -->
