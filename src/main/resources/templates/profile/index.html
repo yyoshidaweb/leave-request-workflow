@@ -49,11 +49,18 @@
                 <hr class="my-1">
             </div>
 
+            <!-- ログアウト -->
+            <form th:action="@{/logout}" method="post" onsubmit="return confirm('本当にログアウトしますか？');" class="mt-4">
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-outline-danger">ログアウト</button>
+                </div>
+            </form>
+
             <!-- アカウント削除 -->
             <form th:action="@{/profile/delete}" method="post"
                 onsubmit="return confirm('本当にアカウントを削除しますか？この操作は取り消せません。');" class="mt-4">
                 <div class="d-grid">
-                    <button type="submit" th:disabled="${isTestAdmin}" class="btn btn-outline-danger">アカウント削除</button>
+                    <button type="submit" th:disabled="${isTestAdmin}" class="btn btn-danger">アカウント削除</button>
                 </div>
             </form>
 
