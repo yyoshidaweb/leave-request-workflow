@@ -21,8 +21,12 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <span th:text="${user.name}"></span>
                     <a th:href="@{/profile/edit-name}" th:unless="${isTestAdmin}" class="btn btn-success btn-sm">編集</a>
-                    <span th:if="${isTestAdmin}" class="text-secondary small">編集不可</span>
+                    <a th:if="${isTestAdmin}" th:disabled="${isTestAdmin}"
+                        class="btn btn-success btn-sm disabled">編集</a>
                 </div>
+                <p th:if="${isTestAdmin}" class="text-secondary small text-start mt-2">
+                    テスト用管理者の名前は編集できません。
+                </p>
                 <hr class="my-1">
             </div>
 
@@ -32,8 +36,12 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <span th:text="${user.email}"></span>
                     <a th:href="@{/profile/edit-email}" th:unless="${isTestAdmin}" class="btn btn-success btn-sm">編集</a>
-                    <span th:if="${isTestAdmin}" class="text-secondary small">編集不可</span>
+                    <a th:if="${isTestAdmin}" th:disabled="${isTestAdmin}"
+                        class="btn btn-success btn-sm disabled">編集</a>
                 </div>
+                <p th:if="${isTestAdmin}" class="text-secondary small text-start mt-2">
+                    テスト用管理者のメールアドレスは編集できません。
+                </p>
                 <hr class="my-1">
             </div>
 
@@ -44,8 +52,12 @@
                     <span>●●●●●●●●</span>
                     <a th:href="@{/profile/edit-password}" th:unless="${isTestAdmin}"
                         class="btn btn-success btn-sm">編集</a>
-                    <span th:if="${isTestAdmin}" class="text-secondary small">編集不可</span>
+                    <a th:if="${isTestAdmin}" th:disabled="${isTestAdmin}"
+                        class="btn btn-success btn-sm disabled">編集</a>
                 </div>
+                <p th:if="${isTestAdmin}" class="text-secondary small text-start mt-2">
+                    テスト用管理者のパスワードは編集できません。
+                </p>
                 <hr class="my-1">
             </div>
 
@@ -66,8 +78,8 @@
 
             <div th:if="${error}" class="alert alert-danger text-center mt-3" th:text="${error}"></div>
 
-            <p th:if="${isTestAdmin}" class="text-secondary small text-center mt-2">
-                ※テスト用管理者のプロフィールは編集できません。
+            <p th:if="${isTestAdmin}" class="text-secondary small text-start mt-2">
+                テスト用管理者のアカウントは削除できません。
             </p>
         </div>
 

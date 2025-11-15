@@ -141,6 +141,14 @@ public class UserService {
     }
 
     /**
+     * メールアドレスがテスト用管理者かどうか判定する
+     */
+    public boolean isTestAdmin(String email) {
+        String testAdminEmail = "test-admin@example.com";
+        return testAdminEmail.equals(email);
+    }
+
+    /**
      * メールアドレスをマスクする
      */
     public String maskEmail(String email) {

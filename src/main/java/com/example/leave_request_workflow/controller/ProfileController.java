@@ -39,7 +39,7 @@ public class ProfileController {
             Model model) {
         User user = userService.findById(loginUserDetails.getId());
         // テスト用管理者かどうか判定
-        boolean isTestAdmin = "test-admin@example.com".equals(user.getEmail());
+        boolean isTestAdmin = userService.isTestAdmin(user.getEmail());
         model.addAttribute("isTestAdmin", isTestAdmin);
         model.addAttribute("user", user);
         return "profile/index";
