@@ -23,7 +23,9 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/dashboard", true) // ログイン成功後の遷移先
                 .permitAll())
 
-                .authorizeHttpRequests(authz -> authz.requestMatchers("/css/**").permitAll() // CSSは認証不要
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/css/**").permitAll() // CSSは認証不要
+                        .requestMatchers("/js/**").permitAll() // JSは認証不要
                         .requestMatchers("/").permitAll() // トップページは認証不要
                         .requestMatchers("/register").permitAll() // 新規ユーザー登録ページは認証不要
                         .requestMatchers("/h2-console/**").permitAll() // H2コンソールに全員アクセス許可
