@@ -40,6 +40,6 @@ https://github.com/user-attachments/assets/1291bcbb-f6ab-483a-8730-ee44502a566f
   - 管理者が申請一覧を確認し、「承認」または「却下」を選択可能
   - ステータスが `承認前 → 承認済 / 却下` に更新
 
-  ## 本プロジェクトのWiki
- *  [Home · yyoshidaweb/leave\-request\-workflow Wiki](https://github.com/yyoshidaweb/leave-request-workflow/wiki)
-     *  重要な機能の実装手順や、Tipsなどを記載しています
+## 本プロジェクトのWiki
+*  [Home · yyoshidaweb/leave\-request\-workflow Wiki](https://github.com/yyoshidaweb/leave-request-workflow/wiki)
+    *  重要な機能の実装手順や、Tipsなどを記載しています
