@@ -1,8 +1,7 @@
 # 🏝️ Leave Request Workflow
 
 ## 概要
-本システムは、業務システムにおける休暇申請ワークフローを再現したデモアプリです。  
-申請から承認、却下等の一連の流れをWeb上で体験できます。 
+本システムは、業務システムにおける休暇申請ワークフローを再現したデモアプリです。申請から承認、却下等の一連の流れをWeb上で体験できます。 
 
 ## 休暇申請作成〜承認のデモ
 
@@ -10,6 +9,11 @@
 https://github.com/user-attachments/assets/1291bcbb-f6ab-483a-8730-ee44502a566f
 
 
+
+## 環境構築手順
+以下のWikiを参照してください。
+
+* [開発環境構築方法（JavaをMacOSのVScodeで使う場合） · yyoshidaweb/leave\-request\-workflow Wiki](https://github.com/yyoshidaweb/Leave-request-workflow/wiki/%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89%E6%96%B9%E6%B3%95%EF%BC%88Java%E3%82%92MacOS%E3%81%AEVScode%E3%81%A7%E4%BD%BF%E3%81%86%E5%A0%B4%E5%90%88%EF%BC%89)
 
 ## 使用技術
 - 言語: Java 17  
