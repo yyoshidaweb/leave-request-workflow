@@ -23,12 +23,6 @@ https://github.com/user-attachments/assets/1291bcbb-f6ab-483a-8730-ee44502a566f
 - コンテナ: Docker
 - デプロイ: Render
 
-## 制作背景
-前職では、大規模業務システムのテスト工程（結合テスト〜総合テスト）に従事していました。  
-実際のプロジェクトでは複雑なワークフローが存在しましたが、守秘義務の観点から詳細を再現することはできません。  
-
-そこで本ポートフォリオでは、業務システムの典型例として  
-一般的な「休暇申請フロー」を題材に選び、最小限の機能で再現しています。  
 
 ## 実装機能
 - **ユーザー管理**
@@ -39,7 +33,17 @@ https://github.com/user-attachments/assets/1291bcbb-f6ab-483a-8730-ee44502a566f
 - **承認フロー**
   - 管理者が申請一覧を確認し、「承認」または「却下」を選択可能
   - ステータスが `承認前 → 承認済 / 却下` に更新
+ 
+
+## 制作背景
+前職では、大規模業務システムのテスト工程（結合テスト〜総合テスト）に従事していました。  
+実際のプロジェクトでは複雑なワークフローが存在しましたが、守秘義務の観点から詳細を再現することはできません。  
+
+そこで本ポートフォリオでは、業務システムの典型例として  
+一般的な「休暇申請フロー」を題材に選び、最小限の機能で再現しています。  
+
+
 
 ## 本プロジェクトのWiki
-*  [Home · yyoshidaweb/leave\-request\-workflow Wiki](https://github.com/yyoshidaweb/leave-request-workflow/wiki)
-    *  重要な機能の実装手順や、Tipsなどを記載しています
+* [Home · yyoshidaweb/leave\-request\-workflow Wiki](https://github.com/yyoshidaweb/leave-request-workflow/wiki)
+    * 重要な機能の実装手順や、Tipsなどをまとめています
