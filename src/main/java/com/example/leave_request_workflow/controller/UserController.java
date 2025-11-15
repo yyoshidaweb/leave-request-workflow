@@ -42,6 +42,8 @@ public class UserController {
     public String showUser(@PathVariable Integer id, Model model) {
         User user = userService.findById(id);
         String maskedEmail = userService.maskEmail(user.getEmail());
+        boolean isTestAdmin = userService.isTestAdmin(user.getEmail());
+        model.addAttribute("isTestAdmin", isTestAdmin);
         model.addAttribute("maskedEmail", maskedEmail);
         model.addAttribute("user", user);
         return "users/show";

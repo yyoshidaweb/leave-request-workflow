@@ -50,15 +50,31 @@
                         <span th:case="*">不明</span>
                     </span>
 
-                    <!-- 編集ボタンまたは説明文 -->
-                    <div>
-                        <a th:if="${user.id != #authentication.principal.id}"
-                            th:href="@{/users/{id}/edit-roles(id=${user.id})}" class="btn btn-success btn-sm">変更</a>
-                        <span th:if="${user.id == #authentication.principal.id}" class="text-secondary small">
-                            ※自分自身の権限は変更できません。
-                        </span>
+                    <!-- 編集ボタン -->
+                    <!-- テスト管理者以外の場合 -->
+                    <div th:unless="${isTestAdmin}">
+                        <div>
+                            <a th:if="${user.id != #authentication.principal.id}"
+                                th:href="@{/users/{id}/edit-roles(id=${user.id})}" class="btn btn-success btn-sm">変更</a>
+                            <a th:if="${user.id == #authentication.principal.id}"
+                                class="btn btn-success btn-sm disabled">変更</a>
+                        </div>
+                    </div>
+                    <!-- テスト管理者の場合 -->
+                    <div th:if="${isTestAdmin}">
+                        <div>
+                            <a class="btn btn-success btn-sm disabled">変更</a>
+                        </div>
                     </div>
                 </div>
+                <!-- テスト管理者以外の場合 -->
+                <p th:if="${user.id == #authentication.principal.id}" class="text-secondary small">
+                    自分自身の権限は変更できません。
+                </p>
+                <!-- テスト管理者の場合 -->
+                <p class="text-secondary small" th:if="${isTestAdmin}">
+                    テスト管理者の権限は変更できません。
+                </p>
                 <hr class="my-1">
             </div>
 
