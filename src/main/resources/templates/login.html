@@ -37,23 +37,51 @@
             </div>
         </form>
 
-        <div class="mt-4 text-center">
-            <p class="text-muted small">
-                管理者の操作を体験したい場合は、以下のテスト管理者でログインできます。
-            </p>
-            <table class="table table-bordered table-sm">
-                <tr>
-                    <th>メールアドレス</th>
-                    <td>test-admin@example.com</td>
-                </tr>
-                <tr>
-                    <th>パスワード</th>
-                    <td>password</td>
-                </tr>
-            </table>
+        <!-- 説明文 -->
+        <p class="text-muted small my-3">
+            以下のテスト管理者のメールアドレスとパスワードでログインすると、管理者の操作を体験できます。
+        </p>
+
+        <div class="card">
+            <div class="card-body shadow-sm">
+                <!-- メールアドレス -->
+                <div class="mb-3">
+                    <p class="fw-semibold mb-1">メールアドレス</p>
+                    <div class="d-flex justify-content-between align-items-center gap-2 p-3 bg-light rounded">
+                        <span id="copy-email" class="small">test-admin@example.com</span>
+                        <!-- Bootstrapアイコンボタン -->
+                        <button
+                            class="copy-btn btn btn-link text-secondary p-0 shadow-none border-0 text-decoration-none"
+                            data-target="copy-email">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- パスワード -->
+                <div>
+                    <p class="fw-semibold mb-1">パスワード</p>
+                    <div class="d-flex justify-content-between align-items-center gap-2 p-3 bg-light rounded">
+                        <span id="copy-password" class="small">password</span>
+                        <!-- Bootstrapアイコンボタン -->
+                        <button
+                            class="copy-btn btn btn-link text-secondary p-0 shadow-none border-0 text-decoration-none"
+                            data-target="copy-password">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-muted small my-3">
+                    名前：テスト管理者<br />
+                    権限：管理者
+                </p>
+
+            </div>
         </div>
 
-        <div class="text-center mt-3">
+
+        <div class="text-center my-3">
             <a th:href="@{/register}" sec:authorize="!isAuthenticated()" class="btn btn-outline-success">
                 新規登録はこちら
             </a>
