@@ -1,4 +1,4 @@
-# 🏝️Leave Request Workflow
+# 🏝️ Leave Request Workflow
 
 ## 概要
 本システムは、休暇申請から承認までのワークフローを最小限に再現したWebアプリケーションです。
